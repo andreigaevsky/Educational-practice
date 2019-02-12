@@ -1,0 +1,11 @@
+commit 1f1ec6dac36e7fa6c1d2d53e975c6c2b6facabdd (HEAD -> master)
+Author: Andrei Gaevsky <gaevskyandrei@gmail.com>
+Date:   Tue Feb 12 11:19:46 2019 +0300
+
+    added new status in status.txt
+
+commit 8a77a3a67a38b1c3b860f4dd5185f6109bee7bbf
+Author: Andrei Gaevsky <gaevskyandrei@gmail.com>
+Date:   Tue Feb 12 11:10:32 2019 +0300
+
+    add .gitignore
