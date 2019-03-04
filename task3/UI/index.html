@@ -4,41 +4,36 @@
     <title>Picshow</title>
     <link href="styles.css" rel="stylesheet">
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="touch-action: auto; font-family: -apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif">
+
+<body class="logged-in" >
 <div class="container" id="id_container">
-    <header class="header" style="top: 0;" data-topbar-fix="true" id="header-container">
+    <header class="header"  data-topbar-fix="true">
         <div class="head-main">
             <div class="head-left">
                 <div class="logo">
-                    <h1 id="site-name">Picshow</h1>
+                    <h1 class="site-name">Picshow</h1>
                 </div>
 
-                <div class="head-line">
-                    <hr id="left-line"/>
-                </div>
+
             </div>
 
             <div class="head-right">
                 <div class="main-menu">
-                    <h1 id="main-name">Username</h1>
+                    <h2 class="main-name">Username</h2>
                     <div class="login">
                         <button id="head-btn" class="classic-btn" type="button">Log out</button>
                     </div>
                 </div>
 
-                <div class="head-line">
-                    <hr id="right-line"/>
-                </div>
             </div>
         </div>
     </header>
 
 
 
-    <div class="main-panel" id="m-panel" data-topbar-fix="true">
+    <div class="main-panel" data-topbar-fix="true">
         <div class="panel-inner">
             <div class="panel-container">
                 <div class="main-funcs">
@@ -55,31 +50,28 @@
 
                 <div class="filter-panel">
                     <div class="filter-container">
-                        <div class="first-line">
+                        <div class="search-by-username">
                             <label for="name-search" class="filter-text">Username:</label>
                             <input class="search" id="name-search" type="text" placeholder="AndyVoid">
                         </div>
 
-                        <div class="second-line">
+                        <div class="search-by-date">
                             <label class="filter-text">Date:</label>
-                            <label for="date1-search" class="help-text">from:</label>
-                            <input class="search-date" id="date1-search" type="date" >
-                            <label for="date2-search" class="help-text" id="to-t">to:</label>
-                            <input class="search-date" id="date2-search" type="date" >
+                            <label for="date-from" class="help-text">from:</label>
+                            <input class="search-date" id="date-from" type="date" >
+                            <label for="date-to" class="help-text">to:</label>
+                            <input class="search-date" id="date-to" type="date" >
                         </div>
 
-                        <div class="third-line">
+                        <div class="search-by-tags">
                             <label for="tags-search" class="filter-text">#Hashtags:</label>
                             <input class="search" id="tags-search" type="text" placeholder="lol">
                         </div>
 
-
                     </div>
-                    <hr id="main-hr" />
-                    </div>
-
             </div>
         </div>
+    </div>
     </div>
 
 
@@ -442,29 +434,30 @@
 
         <div class="btn-more-photo">
             <button id="load-more">
-               <img src="images/ic_expand_more_48px-512.png" alt="load more" id="more-img">
+               <img src="images/ic_expand_more_48px-512.png" alt="load more" class="more-img">
             </button>
         </div>
-    </div>
-</div>
 
-    <footer class="h-c-footer h-c-footer--standard h-has-social">
-        <section class="h-c-footer__global">
-            <ul class="h-c-footer__global-links h-no-bullet" style="list-style: none;">
-                <li class="h-c-footer__global-links-list-item">
+    </div>
+
+</div>
+    <footer class="h-c-footer">
+        <section class="h-c-footer-global">
+            <ul class="h-no-bullet">
+                <li class="h-c-footer-list-item">
                     <p class="just-text"> Picshow ©</p>
                 </li>
 
-                <li class="h-c-footer__global-links-list-item">
+                <li class="h-c-footer-list-item">
                     <p class="just-text">Andrei Gaevsky | 2 course 5 group</p>
                 </li>
 
-                <li class="h-c-footer__global-links-list-item">
+                <li class="h-c-footer-list-item">
                     <p class="just-text">
                         gaevskyandrei@gmail.com</p>
                 </li>
 
-                <li class="h-c-footer__global-links-list-item">
+                <li class="h-c-footer-list-item">
                     <p class="just-text"> 22.02.2019 </p>
                 </li>
             </ul>
