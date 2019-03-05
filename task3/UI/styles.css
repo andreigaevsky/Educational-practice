@@ -106,9 +106,11 @@ html {
 
 .classic-btn{
     border-radius: 10px 0 10px 0;
-    width: 70px;
+    width: auto;
     font-size: 13px;
-    height: 27px;
+    height: auto;
+    min-height: 27px;
+    min-width: 70px;
 }
 
 #head-btn{
@@ -179,8 +181,9 @@ html {
     color: white;
     border: 1px solid #c0c0c0;
     font-size: 13px;
-    width: 70px;
-    height: 27px;
+    width: fit-content;
+    height:auto;
+
 }
 
 .filter-panel {
@@ -375,8 +378,10 @@ html {
     margin-top: 2px;
     margin-right: 6px;
     border-radius: 10px 0 10px 0;
-    height: 21px;
-    width: 60px;
+    height:auto;
+    width: auto;
+    min-height: 21px;
+    min-width: 60px;
     background: transparent;
     color: black;
     font-size: 12px;
@@ -388,8 +393,10 @@ html {
     margin-top: 2px;
     margin-right: 6px;
     border-radius: 10px 0 10px 0;
-    height: 21px;
-    width: 60px;
+    height: auto;
+    width: auto;
+    min-height: 21px;
+    min-width: 60px;
     background: #008dd4;
     color: white;
     font-size: 12px;
