@@ -1,14 +1,19 @@
-;var script = (function () {
+var script = (function () {
+
+    var _username = 'Back Time';
+    var MIN_DSCR = 10;
+    var MAX_DSCR = 200;
 
     function  sortA(a, b) {
        return  b.createdAt - a.createdAt;
     }
+    
     var photoPosts = [
-
+        //just to test
         {
             id: '1',
             description: 'Thank you too so much!!!!',
-            createdAt: new Date(),
+            createdAt: new Date('02.02.2012'),
             author: 'undefined',
             photoLink: 'http://thank',
             hashTags: [],
@@ -18,7 +23,7 @@
         {
             id: '2',
             description: 'It was really awesome',
-            createdAt: new Date(),
+            createdAt: new Date('02.02.2012'),
             author: 'Kirill Body',
             photoLink: 'http://sea',
             hashTags: [],
@@ -186,7 +191,7 @@
         },
         {
             id: '20',
-            description: 'You are in mu heart',
+            description: 'You are in my heart',
             createdAt: new Date(),
             author: 'Lara Blue',
             photoLink: 'http://heart',
@@ -198,209 +203,164 @@
     ];
 
     function hasTag(hashTags, tag) {
-        if (hashTags.find(hashTag => hashTag.toLowerCase().trim().includes(tag.trim().toLowerCase())) !==
-        undefined
-    )
-        {
+        return !!hashTags.find(hashTag => hashTag.includes(tag))
+    }
+
+
+
+    function getPhotoPost(id){
+        return photoPosts.find(post => post.id === id);
+    }
+
+    function addPhotoPost (post) {
+
+        var newPost = {
+            id: new Date().getMilliseconds().toString(),
+            description: post.description,
+            createdAt: new Date(),
+            author: _username,
+            photoLink: post.photoLink,
+            hashTags: (post.hashTags && post.hashTags.map(tag => tag.toLowerCase().trim()) )|| [],
+            likes: []
+        }
+
+        if (validatePhotoPost(newPost)) {
+            photoPosts.push(newPost);
             return true;
         }
         return false;
     }
 
-    Date.prototype.withoutTime = function () {
-        var d =  new Date(this);
-        d.setHours(0,0,0,0);
-        return d;
+    var validateHelper = {
+        id: function(id){
+         return typeof id === 'string' && id.length > 0;
+        },
+        createdAt: function(createdAt){
+         return  createdAt;
+        },
+        author: function(author){
+            return typeof author === 'string' && author.length > 0;
+        },
+        description: function (description) {
+            return description && description.length > MIN_DSCR && description.length < MAX_DSCR;
+        },
+        photoLink: function ( photoLink) {
+           return photoLink && typeof photoLink === 'string' && photoLink.length !== 0;
+        },
+        hashTags: function (hashTags) {
+           return !!hashTags.every(function (item) {
+                return item.length <= 20;
+            });
+        },
+        likes: function (likes) {
+            return likes.length === 0;
+        }
     }
 
+    function validatePhotoPost(photoPost) {
+      return  Object.keys(photoPost).every(function (field) {
+           return validateHelper[field](photoPost[field]);
+       });
+
+    };
+
+    function removePhotoPost (id) {
+        var post = getPhotoPost(id);
+        if (!post) {
+            return false;
+        }
+        photoPosts.splice(photoPosts.indexOf(post), 1);
+        return true;
+    }
+
+     var editHelper ={
+        hashTags: function (hashTags) {
+            return hashTags.map(tag => tag.toLowerCase().trim());
+        },
+        description: function (description) {
+            return description.trim();
+        },
+        photoLink: function (photoLink) {
+            return photoLink.trim();
+        }
+     }
+    function editPhotoPost (id, edit) {
+        var post = getPhotoPost(id);
+        if (!post) {
+            return false;
+        }
+        var editedPost = JSON.parse(JSON.stringify(post));
+        Object.keys(edit).forEach(function (field) {
+            editedPost[field] = editHelper[field](edit[field]);
+            }
+        );
+
+        if (!validatePhotoPost(editedPost)) {
+            return false;
+        }
+        for (field in edit) {
+            post[field] = JSON.parse(JSON.stringify(editedPost[field]));
+        }
+        return true;
+    }
+
+    var filterHelper = {
+        author: function (posts, author) {
+            return posts.filter( function (post) {
+                return post.author.toLowerCase().includes(author.toLowerCase().trim()); });
+        },
+        fromDate:  function (posts, fromDate) {
+            fromDate = new Date(fromDate);
+            return posts.filter( function (post) {
+                return post.createdAt >= fromDate; });
+        },
+        toDate: function (posts, toDate) {
+            toDate = new Date(fromDate);
+            return posts.filter( function (post) {
+                return post.createdAt <= toDate; });
+        },
+        hashTags: function (posts, hashTags) {
+            var tags = hashTags.toLowerCase().trim().split(/[\s,]+/);
+            return posts.filter( function (post) {
+                return tags.every(function (tag) {
+                    return hasTag(post.hashTags,tag)
+                })
+            });
+        }
+    }
+
+   function getPhotoPosts(skip = 0, top =10, filterConfig = undefined) {
+        var filteredPosts = photoPosts.slice();
+        if(filterConfig) {
+            Object.keys(filterConfig).forEach(function (field) {
+                filteredPosts = filterHelper[field](filteredPosts, filterConfig[field])
+            });
+        }
+        filteredPosts = filteredPosts.slice(skip, skip + top);
+        return filteredPosts.sort(sortA);
+    }
 
     return {
-        getPhotoPost: function (id) {
-            return photoPosts.find(post => post.id === id
-        )
-            ;
-        },
-
-
-        addPhotoPost: function (post) {
-            if (validatePhotoPost(post)) {
-                post.createdAt = new Date(post.createdAt);
-                photoPosts.push(post);
-                return true;
-            }
-            return false;
-        },
-
-        removePhotoPost: function (id) {
-            var post = getPhotoPost(id);
-            if (post === undefined) {
-                return false;
-            }
-            console.log(photoPosts.splice(photoPosts.indexOf(post), 1));
-            return true;
-        },
-
-        validatePhotoPost: function (photoPost) {
-            if (photoPost !== undefined) {
-
-                if (!(typeof photoPost.id === 'string')) {
-                    return false;
-                }
-                if (photoPosts.find(post => post.id === undefined))
-                {
-                    return false;
-                }
-
-
-                if (typeof (photoPost.description) == 'string') {
-                    if (photoPost.description.length < 10 || photoPost.description.length > 200) return false;
-                } else {
-                    return false;
-                }
-
-
-                if (photoPost.createdAt === null || photoPost.createdAt === undefined || new Date(photoPost.createdAt) == 'Invalid Date'
-                ) {
-                    return false;
-                }
-
-
-                if (typeof photoPost.author != 'string' || photoPost.author.length == 0) {
-                    return false;
-                }
-
-
-                if (typeof photoPost.photoLink != 'string' || photoPost.photoLink.length == 0) {
-                    return false;
-                }
-
-
-                if (Array.isArray(photoPost.hashTags)) {
-                    if (!photoPost.hashTags.includes(null) && !photoPost.hashTags.includes(undefined) && !photoPost.hashTags.includes('')) {
-                        var tags = photoPost.hashTags.find(function (item) {
-                            // find
-                            return item.length > 20;
-                        });
-                        if (tags !== undefined) return false;
-                    } else {
-                        return false;
-                    }
-                }
-
-
-                if (Array.isArray(photoPost.likes)) {
-                    if (photoPost.likes.includes(null) || photoPost.likes.includes(undefined) || photoPost.likes.includes('')) {
-                        return false;
-                    }
-                }
-            } else {
-                return false;
-            }
-
-            return true;
-
-        },
-
-        editPhotoPost: function (id, edit) {
-            var post = getPhotoPost(id);
-            if (post === undefined) {
-                return false;
-            }
-            var editedPost = JSON.parse(JSON.stringify(post));
-            for (field in edit) {
-                switch (field) {
-                    case 'author':
-                    case 'createdAt':
-                    case 'likes':
-                    case 'id': {
-                        console.log('You can\'t edit the field <{}>'.replace('{}', field));
-                        return false;
-                    }
-                    case 'description':
-                    case 'hashTags':
-                    //проверить, можно ли так присвоить массив тегов
-                    case 'photoLink': {
-                        editedPost[field] = edit[field];
-                        break;
-                    }
-                    default: {
-                        console.log("The field \"" + field + "\" doesn't exist!");
-                        return false;
-                    }
-                }
-            }
-
-            if (validatePhotoPost(editedPost)) {
-                for (field in edit) {
-                    post[field] = JSON.parse(JSON.stringify(editedPost[field]));
-                }
-                return true;
-            } else {
-                return false;
-            }
-        },
-
-
-        getPhotoPosts: function (skip = 0, top =10, filterConfig) {
-            var filteredPosts = photoPosts.slice();
-            if (filterConfig !== null && filterConfig !== undefined && typeof filterConfig === 'object') {
-                for (field in filterConfig) {
-                    switch (field) {
-                        case 'fromDate':
-                            if (filterConfig.fromDate !== null && filterConfig.fromDate !== undefined && filterConfig.fromDate.trim() !== '') {
-                                if (new Date(filterConfig.fromDate) !== 'Invalid Date') {
-                                    fromDate = new Date(filterConfig.fromDate);
-                                    filteredPosts = filteredPosts.filter(function (post) {
-                                        return post.createdAt > fromDate;
-                                    });
-                                }
-                            }
-                            break;
-                        case 'toDate':
-                            if (filterConfig.toDate !== null && filterConfig.toDate !== undefined && filterConfig.toDate.trim() !== '') {
-                                if (new Date(filterConfig.fromDate) !== 'Invalid Date') {
-                                    toDate = new Date(filterConfig.toDate);
-                                    filteredPosts = filteredPosts.filter(function (post) {
-                                        return post.createdAt.withoutTime() < toDate.withoutTime();
-                                    });
-                                }
-                            }
-                            break;
-                        case 'author':
-                            if (filterConfig.author !== null && filterConfig.author !== undefined && filterConfig.author.trim() !== '') {
-
-                                filteredPosts = filteredPosts.filter(function (post) {
-                                    return post.author.trim().toLowerCase().includes(filterConfig['author'].toLowerCase().trim());
-                                });
-                            }
-                            break;
-                        case 'hashTags': {
-                            if (filterConfig.hashTags !== null && filterConfig.hashTags !== undefined && filterConfig.hashTags.trim() !== '') {
-                                var tags = filterConfig['hashTags'].split(/[\s,]+/);
-                                filteredPosts = filteredPosts.filter(function (post) {
-                                    for (index = 0; index < tags.length; index++) {
-                                        if (!hasTag(post.hashTags, tags[index])) {
-                                            return false;
-                                        }
-                                    }
-                                    return true;
-                                });
-                            }
-                            break;
-                        }
-                        default: {
-                            console.log("The field \"" + field + "\" doesn't exist!");
-                            return false;
-                        }
-                    }
-                }
-            }
-            filteredPosts = filteredPosts.slice(skip, skip + top);
-            return filteredPosts.sort(sortA);
-        }
-
+        getPhotoPost: getPhotoPost,
+        validatePhotoPost: validatePhotoPost,
+        addPhotoPost: addPhotoPost,
+        removePhotoPost: removePhotoPost,
+        editPhotoPost: editPhotoPost,
+        getPhotoPosts: getPhotoPosts,
 }
-
-
-
 }());
+
+
+console.log('Let\'s test every function:');
+console.log('\"script.getPhotoPost(\'1\');\"');
+console.log(script.getPhotoPost('1'));
+console.log('\"script.removePhotoPost(\'1\');\"');
+console.log(script.removePhotoPost('1'));
+console.log('\"script.getPhotoPost(\'1\');\"');
+console.log(script.getPhotoPost('1'));
+console.log('\"script.addPhotoPost({description: "My fruty sweety pain", hashTags: ["Me", "You"], photoLink: "http"})\"');
+console.log(script.addPhotoPost({description: "My fruty sweety pain", hashTags: ["Me", "You"], photoLink: "http"}));
+console.log('\"script.editPhotoPost(\'3\', {hashTags: [\'wow\',\'cool\'], description: \'Now I can do almost all\'})\"')
+console.log(script.editPhotoPost('3', {hashTags: ['wow','cool'], description: 'Now I can do almost all'}));
+console.log('\"script.getPhotoPosts(0,10,{author: \'a\', hashTags: \'o\'})\"');
+console.log(script.getPhotoPosts(0,10,{author: 'a', hashTags: 'o'}))
