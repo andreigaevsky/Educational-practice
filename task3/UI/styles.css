@@ -1,0 +1,494 @@
+html {
+    height: 100%;
+    width: 100%;
+    min-width: 335px;
+    background: linear-gradient(to top right, #e2e7ea, #ffffff) fixed no-repeat;
+}
+
+.logged-in {
+    font-family: -apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
+    height: fit-content;
+    width: 100%;
+    background-image: none;
+    min-height: 100%;
+    min-width: 100%;
+    margin: 0;
+
+}
+
+.container {
+    min-height: 100%;
+    margin: 0 auto;
+}
+
+.header {
+    top: 0;
+    display: block;
+    box-sizing: border-box;
+    position: relative;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: inherit;
+    padding: 0;
+    margin: 0;
+
+}
+
+.header .head-main {
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+
+}
+
+.site-name {
+    font-family: Calligraffitti;
+    font-size: 32px;
+    color: #686f75;
+    padding-left: 20px;
+    padding-right: 10px;
+    margin-top: 7px;
+    margin-right: 0;
+    margin-bottom: -7px;
+    position: relative;
+
+}
+
+.head-left{
+    border-bottom-style: inset;
+    border-bottom-width: 1px;
+    border-bottom-color: #aaaaaa;
+}
+
+.left-line{
+    margin: 0 0 0 10px;
+
+    width: 130px;
+    border:0;
+    height: 1px;
+
+    background-image: linear-gradient(to right, #ccc, #aaaaaa, #ccc)
+}
+
+.head-right{
+    border-bottom-style: inset;
+    border-bottom-width: 1px;
+    border-bottom-color: #aaaaaa;
+}
+
+.head-right {
+    text-align: right;
+    position: relative;
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.main-menu{
+    display: flex;
+}
+
+.main-name{
+    font-family: "Segoe Print";
+    margin: 17px 10px auto 10px;
+    color: #008dd4;
+    padding: 0;
+    font-size: 18px;
+}
+
+.login {
+    display: inline-block;
+    padding-left: 1px;
+}
+
+.classic-btn{
+    border-radius: 10px 0 10px 0;
+    width: auto;
+    font-size: 13px;
+    height: auto;
+    min-height: 27px;
+    min-width: 70px;
+}
+
+#head-btn{
+    border-radius: 10px 0 10px 0;
+    background: transparent;
+    color: #686f75;
+    border: 1px solid #d6d6d6;
+    font-size: 13px;
+    margin-bottom: 8px;
+    margin-top: 15px;
+}
+
+.right-line{
+    margin: 0 0 0 2px;
+    height: 1px;
+    border: 0;
+    background-image: linear-gradient(to top right, #ccc, #aaaaaa, white)
+}
+
+.main-panel {
+    height: fit-content;
+}
+
+.panel-inner {
+    display: block;
+}
+
+.panel-container {
+    margin-top: 10px;
+    position: relative;
+}
+
+.main-funcs {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin: 0 7px;
+}
+
+.btn-filter {
+    height: fit-content;
+    display: flex;
+    position: relative;
+}
+
+#i-bfilter {
+    background: #aaaaaa;
+    color: white;
+    border: 1px solid #d6d6d6;
+}
+
+#i-tsearch {
+    width: 50%;
+    border-radius: 9px 0 9px 0;
+    margin: auto;
+    border: 1px solid #008dd4;
+    display: block;
+    position: relative;
+    min-width: 176px;
+    text-align: start;
+    padding: 0 0 0 10px;
+    height: 23px;
+}
+
+#post-create{
+    border-radius: 10px 0 10px 0;
+    background: #008dd4;
+    color: white;
+    border: 1px solid #c0c0c0;
+    font-size: 13px;
+    width: fit-content;
+    height:auto;
+
+}
+
+.filter-panel {
+    max-width: 100%;
+    display: block;
+    margin: 10px;
+    padding-bottom: 10px;
+    position: relative;
+    border-bottom: 1px solid #aaaaaa;
+}
+
+.filter-container{
+    width: fit-content;
+    margin: auto;
+}
+
+.search-by-username {
+    display: flex;
+    width: 100%;
+    padding-top: 5px;
+}
+
+.filter-text {
+    margin: auto;
+    padding-right: 4px;
+}
+
+.search-by-date {
+    display: flex;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.help-text {
+    font-size: 90%;
+    width: fit-content;
+    margin: auto;
+    padding: 0 4px 0 4px;
+}
+
+.search, .search-date {
+    min-width: 70px;
+    width: 100%;
+
+    border-radius: 9px 0 9px 0;
+    padding-left: 4px;
+    height: 21px;
+    border: 1px solid #008dd4;
+    background-color: transparent;
+}
+
+.search-by-tags {
+    display: flex;
+    width: 100%;
+    padding-top: 10px;
+}
+
+#main-hr{
+    position: relative;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #aaaaaa, rgba(0, 0, 0, 0));
+    height: 1px;
+    border: 0;
+    width: 80%;
+}
+
+.main-container {
+    display: inline-block;
+    letter-spacing: normal;
+    word-spacing: normal;
+    vertical-align: top;
+    text-rendering: auto;
+    width: 100%;
+}
+
+.main-content {
+    background-color: #F9F9F9;
+    min-height: 100%;
+    height: auto !important;
+
+    position: relative;
+}
+
+.none-user-post{
+    margin-left: 17%;
+    margin-right: 17%;
+    max-width:100%;
+    height:auto;
+}
+
+.post-head{
+    padding-top: 20px;
+    display: block;
+    margin-top: 7px;
+}
+
+.post-main-use{
+    display: flex;
+}
+
+.u-name{
+    margin: 0;
+    font-size: 15px;
+    width: fit-content;
+    flex: 1;
+}
+
+.post-info{
+    display: flex;
+}
+
+.post-describe{
+    word-wrap: break-word;
+    width: 20px;
+    font-size: 13px;
+    margin:0 0 0 7px;
+    flex: 1;
+}
+
+.post-time{
+    font-size: 0.6em;
+    width: fit-content;
+    margin-bottom: 2px;
+}
+
+.pots-img{
+    position: relative;
+    text-align: center;
+    width: 100%;
+    height: fit-content;
+    margin-bottom: 0;
+}
+
+.post-photo{
+    position: relative;
+    align-content: center;
+}
+
+.pots-img img{
+    max-width: 100%;
+    height: auto;
+}
+
+.like-info{
+    display: flex;
+    margin-left: 7px;
+}
+
+.btn-like{
+    border: 0;
+    background-color: transparent;
+}
+
+.like-ph{
+    width:22px;
+    height: 19px;
+}
+
+.count-likes{
+    margin: auto;
+    flex: 1;
+    font-size: 14px;
+}
+
+.tags{
+    margin: 3px 0 0 6px;
+    font-size: 14px;
+}
+
+.bottom-line{
+    width: 100%;
+    display: block;
+    height: fit-content;
+    padding-top: 12px;
+}
+
+.b-hr{
+    position: relative;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #aaaaaa, rgba(0, 0, 0, 0));
+    height: 1px;
+    border: none;
+    width: 100%;
+}
+
+.post{
+    margin-left: 17%;
+    margin-right: 17%;
+    max-width:100%;
+    height:auto;
+}
+
+.post-edit-btn{
+    margin-top: 2px;
+    margin-right: 6px;
+    border-radius: 10px 0 10px 0;
+    height:auto;
+    width: auto;
+    min-height: 21px;
+    min-width: 60px;
+    background: transparent;
+    color: black;
+    font-size: 12px;
+    border: 1px solid #d6d6d6;
+
+}
+
+.post-delete-btn{
+    margin-top: 2px;
+    margin-right: 6px;
+    border-radius: 10px 0 10px 0;
+    height: auto;
+    width: auto;
+    min-height: 21px;
+    min-width: 60px;
+    background: #008dd4;
+    color: white;
+    font-size: 12px;
+    border: 1px solid #c0c0c0;
+}
+
+.more-img{
+    width: 70px;
+    height: auto;
+
+}
+
+.h-c-footer {
+    border-top: 1px solid #c0c0c0;
+    font-size: 14px;
+    background: #e6e6e6;
+    height: fit-content;
+    color: #929292;
+    overflow: auto;
+    margin: 2px 0 0 0;
+}
+
+.btn-more-photo{
+    position: relative;
+    align-content: center;
+    margin: 0 15%;
+}
+
+#load-more{
+  display: flex;
+    margin: auto;
+    border: 0;
+    background-color: transparent;
+}
+
+.h-no-bullet{
+    list-style: none;
+    position: relative;
+    display: block;
+    margin: 16px 0 32px 0;
+    height: fit-content;
+}
+.h-c-footer-list-item{
+    float: left;
+    padding:  0;
+    margin: 0 5px 0 0;
+}
+.just-text{
+    padding: 0 15px 5px 0;
+    margin: 0;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.footer-container{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+@media screen and (max-width: 1560px){
+.none-user-post{
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 580px;
+}
+    .post{
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 580px;
+    }
+}
+
+@media screen and (max-width: 400px){
+    .search-date{
+        width: 100px;
+    }
+}
+
+@font-face {
+    font-family: Calligraffitti; 
+    src: url(fonts/Calligraffitti-Regular.ttf);
+   }
+
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
