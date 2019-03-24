@@ -18,9 +18,9 @@
 
             <div class="head-right">
                 <div class="main-menu">
-                    <h2 class="main-name">Username</h2>
+                    <h2 id="head-user" class="main-name"></h2>
                     <div class="login">
-                        <button id="head-btn" class="classic-btn" type="button">Log out</button>
+                        <button id="head-btn" class="classic-btn" type="button">Log In</button>
                     </div>
                 </div>
 
@@ -45,7 +45,7 @@
                     </div>
                 </div>
 
-                <div class="filter-panel">
+                <div class="filter-panel" id="flt-panel">
                     <div class="filter-container">
                         <div class="search-by-username">
                             <label for="name-search" class="filter-text">Username:</label>
@@ -72,368 +72,51 @@
     </div>
 
 
-    <div class="main-wall">
-        <div class="none-user-post">
-            <div class="post-head">
+    <div class="main-wall" id="posts-wall">
 
-                <div class="post-main-use">
-                    <h2 class="u-name">Another-username</h2>
+         <template id="post-template">
+            <div class="post">
+                <div class="post-head">
+                    <div class="post-main-use">
+                        <h2 class="u-name"></h2>
+                        <button class="post-edit-btn">Edit</button>
+                    </div>
+
+                    <div class="post-info">
+                        <p class="post-describe"></p>
+                        <p class="post-time"></p>
+                    </div>
                 </div>
 
-                <div class="post-info">
-                    <p class="post-describe">Cool!!!!!!!!</p>
-                    <p class="post-time">10.12.2016 10:47</p>
+                <div class="pots-img">
+                    <img class="post-photo" src="" alt="photo">
                 </div>
 
-            </div>
+                <div class="post-bot">
+                    <div class="like-info">
+                        <button id="like-btn">
+                            <img class="like-ph" src="images/like.png" alt="like">
+                        </button>
+                        <p class="count-likes"></p>
+                        <button class="post-delete-btn">Delete</button>
+                    </div>
 
-            <div class="pots-img">
-                <img class="post-photo" src="images/first.jpg" alt="photo">
-            </div>
+                    <div class="tags">
 
-            <div class="post-bot">
-                <div class="like-info">
-                    <button class="btn-like">
-                        <img class="like-ph" src="images/like.png" alt="like">
-                    </button>
-
-                    <p class="count-likes">127</p>
-                </div>
-
-                <div class="tags">
-                    <a href="">#sea</a>
-                    <a href="">#travel</a>
-                </div>
-
-                <div class="bottom-line">
-                    <hr class="b-hr"/>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="post">
-            <div class="post-head">
-                <div class="post-main-use">
-                    <h2 class="u-name">Username</h2>
-                    <button class="post-edit-btn">Edit</button>
-                </div>
-
-                <div class="post-info">
-                    <p class="post-describe">Cool!!!!!!!!</p>
-                    <p class="post-time">10.12.2016 10:47</p>
+                    </div>
+                    <div class="bottom-line">
+                        <hr class="b-hr"/>
+                    </div>
                 </div>
             </div>
+         </template>
 
-            <div class="pots-img">
-                <img class="post-photo" src="images/bolshie-ozera.orig.jpg" alt="photo">
-            </div>
 
-            <div class="post-bot">
-                <div class="like-info">
-                    <img class="like-ph" src="images/like.png" alt="like">
-                    <p class="count-likes">127</p>
-                    <button class="post-delete-btn">Delete</button>
-                </div>
-
-                <div class="tags">
-                    <a href="">#travel</a>
-                </div>
-                <div class="bottom-line">
-                    <hr class="b-hr"/>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="post">
-            <div class="post-head">
-                <div class="post-main-use">
-                    <h2 class="u-name">Username</h2>
-                    <button class="post-edit-btn">Edit</button>
-                </div>
-
-                <div class="post-info">
-                    <p class="post-describe">Cool!!!!!!!!</p>
-                    <p class="post-time">10.12.2016 10:47</p>
-                </div>
-            </div>
-
-            <div class="pots-img">
-                <img class="post-photo" src="images/second.jpg" alt="photo">
-            </div>
-
-            <div class="post-bot">
-                <div class="like-info">
-                    <img class="like-ph" src="images/liked.png" alt="like">
-                    <p class="count-likes">127</p>
-                    <button class="post-delete-btn">Delete</button>
-                </div>
-
-                <div class="tags">
-                    <a href="">#travel</a>
-                </div>
-                <div class="bottom-line">
-                    <hr class="b-hr"/>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="none-user-post">
-            <div class="post-head">
-
-                <div class="post-main-use">
-                    <h2 class="u-name">Another-username</h2>
-                </div>
-
-                <div class="post-info">
-                    <p class="post-describe">Cool!!!!!!!!</p>
-                    <p class="post-time">10.12.2016 10:47</p>
-                </div>
-
-            </div>
-
-            <div class="pots-img">
-                <img class="post-photo" src="images/third.jpg" alt="photo">
-            </div>
-
-            <div class="post-bot">
-                <div class="like-info">
-                    <img class="like-ph" src="images/liked.png" alt="like">
-                    <p class="count-likes">127</p>
-                </div>
-
-                <div class="tags">
-                    <a href="">#sea</a>
-                    <a href="">#travel</a>
-                </div>
-
-                <div class="bottom-line">
-                    <hr class="b-hr"/>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="post">
-            <div class="post-head">
-                <div class="post-main-use">
-                    <h2 class="u-name">Username</h2>
-                    <button class="post-edit-btn">Edit</button>
-                </div>
-
-                <div class="post-info">
-                    <p class="post-describe">Cool!!!!!!!!</p>
-                    <p class="post-time">10.12.2016 10:47</p>
-                </div>
-            </div>
-
-            <div class="pots-img">
-                <img class="post-photo" src="images/81367782.jpg" alt="photo">
-            </div>
-
-            <div class="post-bot">
-                <div class="like-info">
-                    <img class="like-ph" src="images/liked.png" alt="like">
-                    <p class="count-likes">127</p>
-                    <button class="post-delete-btn">Delete</button>
-                </div>
-
-                <div class="tags">
-                    <a href="">#travel</a>
-                </div>
-                <div class="bottom-line">
-                    <hr class="b-hr"/>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="none-user-post">
-            <div class="post-head">
-
-                <div class="post-main-use">
-                    <h2 class="u-name">Another-username</h2>
-                </div>
-
-                <div class="post-info">
-                    <p class="post-describe">Cool!!!!!!!!</p>
-                    <p class="post-time">10.12.2016 10:47</p>
-                </div>
-
-            </div>
-
-            <div class="pots-img">
-                <img class="post-photo" src="images/forth.jpg" alt="photo">
-            </div>
-
-            <div class="post-bot">
-                <div class="like-info">
-                    <img class="like-ph" src="images/liked.png" alt="like">
-                    <p class="count-likes">127</p>
-                </div>
-
-                <div class="tags">
-                    <a href="">#sea</a>
-                    <a href="">#travel</a>
-                </div>
-
-                <div class="bottom-line">
-                    <hr class="b-hr"/>
-                </div>
-            </div>
-        </div>
-
-        <div class="post">
-            <div class="post-head">
-                <div class="post-main-use">
-                    <h2 class="u-name">Username</h2>
-                    <button class="post-edit-btn">Edit</button>
-                </div>
-
-                <div class="post-info">
-                    <p class="post-describe">Cool!!!!!!!!</p>
-                    <p class="post-time">10.12.2016 10:47</p>
-                </div>
-            </div>
-
-            <div class="pots-img">
-                <img class="post-photo" src="images/fifth.jpg" alt="photo">
-            </div>
-
-            <div class="post-bot">
-                <div class="like-info">
-                    <img class="like-ph" src="images/liked.png" alt="like">
-                    <p class="count-likes">127</p>
-                    <button class="post-delete-btn">Delete</button>
-                </div>
-
-                <div class="tags">
-                    <a href="">#travel</a>
-                </div>
-                <div class="bottom-line">
-                    <hr class="b-hr"/>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="none-user-post">
-            <div class="post-head">
-
-                <div class="post-main-use">
-                    <h2 class="u-name">Another-username</h2>
-                </div>
-
-                <div class="post-info">
-                    <p class="post-describe">Cool!!!!!!!!</p>
-                    <p class="post-time">10.12.2016 10:47</p>
-                </div>
-
-            </div>
-
-            <div class="pots-img">
-                <img class="post-photo" src="images/sixth.jpg" alt="photo">
-            </div>
-
-            <div class="post-bot">
-                <div class="like-info">
-                    <img class="like-ph" src="images/like.png" alt="like">
-                    <p class="count-likes">127</p>
-                </div>
-
-                <div class="tags">
-                    <a href="">#sea</a>
-                    <a href="">#travel</a>
-                </div>
-
-                <div class="bottom-line">
-                    <hr class="b-hr"/>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="post">
-            <div class="post-head">
-                <div class="post-main-use">
-                    <h2 class="u-name">Username</h2>
-                    <button class="post-edit-btn">Edit</button>
-                </div>
-
-                <div class="post-info">
-                    <p class="post-describe">Cool!!!!!!!!</p>
-                    <p class="post-time">10.12.2016 10:47</p>
-                </div>
-            </div>
-
-            <div class="pots-img">
-                <img class="post-photo" src="images/seventh.jpg" alt="photo">
-            </div>
-
-            <div class="post-bot">
-                <div class="like-info">
-                    <img class="like-ph" src="images/liked.png" alt="like">
-                    <p class="count-likes">127</p>
-                    <button class="post-delete-btn">Delete</button>
-                </div>
-
-                <div class="tags">
-                    <a href="">#travel</a>
-                </div>
-                <div class="bottom-line">
-                    <hr class="b-hr"/>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="post">
-            <div class="post-head">
-                <div class="post-main-use">
-                    <h2 class="u-name">Username</h2>
-                    <button class="post-edit-btn">Edit</button>
-                </div>
-
-                <div class="post-info">
-                    <p class="post-describe">Cool!!!!!!!!</p>
-                    <p class="post-time">10.12.2016 10:47</p>
-                </div>
-            </div>
-
-            <div class="pots-img">
-                <img class="post-photo" src="images/eith.jpeg" alt="photo">
-            </div>
-
-            <div class="post-bot">
-                <div class="like-info">
-                    <img class="like-ph" src="images/liked.png" alt="like">
-                    <p class="count-likes">127</p>
-                    <button class="post-delete-btn">Delete</button>
-                </div>
-
-                <div class="tags">
-                    <a href="">#travel</a>
-                </div>
-                <div class="bottom-line">
-                    <hr class="b-hr"/>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="btn-more-photo">
-            <button id="load-more">
-               <img src="images/ic_expand_more_48px-512.png" alt="load more" class="more-img">
-            </button>
-        </div>
+    </div>
+    <div class="btn-more-photo">
+        <button id="load-more">
+            <img src="images/ic_expand_more_48px-512.png" alt="load more" class="more-img">
+        </button>
     </div>
 </div>
     <footer class="h-c-footer">
@@ -460,4 +143,6 @@
     </footer>
 </body>
 <script src="script.js"></script>
+<script src="view.js"></script>
+<script src="global.js"></script>
 </html>
