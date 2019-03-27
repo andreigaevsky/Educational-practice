@@ -22,8 +22,12 @@
     "no-console": "off",
     "quotes": ["error", "single"],
     "no-underscore-dangle": "off",
-    "max-len": ["error", 120]
-
+    "max-len": ["error", 120],
+    "no-undef": "off",
+    "no-unused-vars": "off",
+    "func-names": "off",
+    "class-methods-use-this": "off",
+    "no-param-reassign": "off"
 
   }
 }
