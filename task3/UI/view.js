@@ -28,6 +28,7 @@ class View {
         this._user = user;
         this.amountPosts = 0;
         this.TEMPLATE = document.getElementById('post-template');
+        this.TAGS = document.getElementById('post-tag');
         ViewHeader.updateHeader(user);
         this.showPosts(this._postsList.getPage());
     }
@@ -42,45 +43,54 @@ class View {
         wall.removeChild(node);
         this.amountPosts -= 1;
             const posts = this._postsList.getPage(this.amountPosts, this.amountPosts + 1);
-            posts.forEach(post => wall.append(this._buildPost(post, this)));
-            const morePostsBtn = document.getElementsByClassName('btn-more-photo');
-            if (this.amountPosts > 0 && this.amountPosts !== this._photoPosts.length) {
-                morePostsBtn[0].style.display = 'block';
-            } else {
-                morePostsBtn[0].style.display = 'none';
-            }
+            posts.forEach((post) => { wall.append(this._buildPost(post, this)); });
+            this._setBtnMorePosts();
             return true;
     }
 
-    _buildPost(post, that) {
+    _setBtnMorePosts() {
+        const morePostsBtn = document.getElementsByClassName('btn-more-photo');
+        morePostsBtn[0].style.display = this.amountPosts === this._photoPosts.length
+            ? 'none' : 'block';
+    }
+
+    _buildTags(hashTag, tagsTemplate) {
         const fragment = document.importNode(
-            that.TEMPLATE.content,
+            tagsTemplate.content,
             true,
         );
+        const newTag = fragment.firstElementChild;
+        newTag.innerText = hashTag;
+        return newTag;
+    }
+
+    _setUserOptions(user, newPost, post) {
+        if (user) {
+            if (user.name === post.author) {
+                newPost.querySelector('.post-delete-btn').style.display = 'block';
+                newPost.querySelector('.post-edit-btn').style.display = 'block';
+            }
+            if (post.likes.includes(user.name)) {
+                newPost.querySelector('.like-ph').src = 'images/liked.png';
+            }
+        } else {
+            newPost.querySelector('#like-btn').disabled = true;
+        }
+    }
+
+    _buildPost(post, that) {
+        const fragment = document.importNode(that.TEMPLATE.content, true);
         const newPost = fragment.firstElementChild;
         newPost.id = post.id;
         newPost.querySelector('.u-name').textContent = post.author;
         newPost.querySelector('.post-describe').textContent = post.description;
-        newPost.querySelector('.post-time').textContent = `${post.createdAt.toLocaleDateString()}, ${post.createdAt.toLocaleTimeString()}`;
+        newPost.querySelector('.post-time').textContent = `${post.createdAt.toLocaleDateString()}, 
+        ${post.createdAt.toLocaleTimeString()}`;
         newPost.querySelector('.post-photo').src = post.photoLink;
-        if (this._user && post.likes.includes(this._user.name)) {
-            newPost.querySelector('.like-ph').src = 'images/liked.png';
-        } else {
-            newPost.querySelector('#like-btn').disabled = true;
-        }
         newPost.querySelector('.count-likes').textContent = post.likes.length;
-        if (that._user && that._user.name == post.author) {
-            newPost.querySelector('.post-delete-btn').style.display = 'block';
-            newPost.querySelector('.post-edit-btn').style.display = 'block';
-        }
+        this._setUserOptions(this._user, newPost, post);
         const tags = newPost.querySelector('.tags');
-        post.hashTags.forEach((tag) => {
-            const href = document.createElement('a');
-            href.innerText = `#${tag}`;
-            href.className = 'tag-class';
-            href.setAttribute('href', '');
-            tags.append(href);
-        });
+        post.hashTags.forEach((tag) => { tags.append(that._buildTags(tag, that.TAGS)); });
         return newPost;
     }
 
@@ -94,41 +104,25 @@ class View {
 
     showPosts(posts) {
         const wall = document.getElementById('posts-wall');
-        while (wall.firstChild) {
-            wall.removeChild(wall.firstChild);
-        }
-        posts.forEach(post => wall.append(this._buildPost(post, this)));
+        wall.innerHTML = '';
+        posts.forEach((post) => { wall.append(this._buildPost(post, this)); });
         this.amountPosts = posts.length;
-        const morePostsBtn = document.getElementsByClassName('btn-more-photo');
-        if (this.amountPosts > 0 && this.amountPosts !== this._photoPosts.length) {
-            morePostsBtn[0].style.display = 'block';
-        } else {
-            morePostsBtn[0].style.display = 'none';
-        }
+        this._setBtnMorePosts();
     }
 
     showMorePosts() {
         const wall = document.getElementById('posts-wall');
         const nextPosts = this._postsList.getPage(this.amountPosts, this.amountPosts + 10);
-        nextPosts.forEach(post => wall.append(this._buildPost(post, this)));
+        nextPosts.forEach((post) => { wall.append(this._buildPost(post, this)); });
         this.amountPosts += nextPosts.length;
-        const morePostsBtn = document.getElementsByClassName('btn-more-photo');
-        if (this.amountPosts !== this._photoPosts.length) {
-            morePostsBtn[0].style.display = 'block';
-        } else {
-            morePostsBtn[0].style.display = 'none';
-        }
+        this._setBtnMorePosts();
      }
 
-     likePost(id) {
+     toggleLike(id, countLikes) {
          const post = document.getElementById(id);
-         post.querySelector('.like-ph').src = 'images/liked.png';
-         post.querySelector('.count-likes').innerText = +post.querySelector('.count-likes').innerText + 1;
-     }
-
-     unlikePost(id) {
-         const post = document.getElementById(id);
-         post.querySelector('.like-ph').src = 'images/like.png';
-         post.querySelector('.count-likes').innerText = +post.querySelector('.count-likes').innerText - 1;
+         const likeImg = post.querySelector('.like-ph');
+         likeImg.src = likeImg.src.includes('liked')
+             ? 'images/like.png' : 'images/liked.png';
+         post.querySelector('.count-likes').innerText = countLikes;
      }
 }
