@@ -1,24 +1,24 @@
 html {
     height: 100%;
     width: 100%;
-    min-width: 335px;
+    min-width: 345px;
     background: linear-gradient(to top right, #e2e7ea, #ffffff) fixed no-repeat;
 }
 
 .logged-in {
     font-family: -apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
-    height: fit-content;
+    height: 100%;
     width: 100%;
     background-image: none;
-    min-height: 100%;
-    min-width: 100%;
+    flex-direction: column;
+    display: flex;
     margin: 0;
-
 }
 
 .container {
-    min-height: 100%;
-    margin: 0 auto;
+    flex: 1 0 auto;
+
+    box-sizing: border-box;
 }
 
 .header {
@@ -73,18 +73,16 @@ html {
     background-image: linear-gradient(to right, #ccc, #aaaaaa, #ccc)
 }
 
-.head-right{
+
+.head-right {
     border-bottom-style: inset;
     border-bottom-width: 1px;
     border-bottom-color: #aaaaaa;
-}
-
-.head-right {
     text-align: right;
     position: relative;
     width: fit-content;
     padding-left: 10px;
-    padding-right: 10px;
+    padding-right: 8px;
 }
 
 .main-menu{
@@ -165,14 +163,13 @@ html {
 #i-tsearch {
     width: 50%;
     border-radius: 9px 0 9px 0;
-    margin: auto;
     border: 1px solid #008dd4;
     display: block;
     position: relative;
     min-width: 176px;
     text-align: start;
     padding: 0 0 0 10px;
-    height: 23px;
+    height: auto;
 }
 
 #post-create{
@@ -329,6 +326,15 @@ html {
 .like-info{
     display: flex;
     margin-left: 7px;
+    height: 22px;
+}
+
+#like-btn{
+    border:0;
+    background-color: transparent;
+    width:fit-content;
+    padding: 0;
+    margin-right: 5px;;
 }
 
 .btn-like{
@@ -341,6 +347,10 @@ html {
     height: 19px;
 }
 
+.tag-class{
+    margin-left: 5px;
+}
+
 .count-likes{
     margin: auto;
     flex: 1;
@@ -351,7 +361,11 @@ html {
     margin: 3px 0 0 6px;
     font-size: 14px;
 }
-
+.main-wall{
+    width: 96%;
+    margin: auto;
+    padding-bottom: 5px;
+}
 .bottom-line{
     width: 100%;
     display: block;
@@ -375,12 +389,13 @@ html {
 }
 
 .post-edit-btn{
+    display: none;
     margin-top: 2px;
     margin-right: 6px;
     border-radius: 10px 0 10px 0;
     height:auto;
     width: auto;
-    min-height: 21px;
+    min-height: 25px;
     min-width: 60px;
     background: transparent;
     color: black;
@@ -390,12 +405,13 @@ html {
 }
 
 .post-delete-btn{
+    display: none;
     margin-top: 2px;
     margin-right: 6px;
     border-radius: 10px 0 10px 0;
     height: auto;
     width: auto;
-    min-height: 21px;
+    min-height: 25px;
     min-width: 60px;
     background: #008dd4;
     color: white;
@@ -416,13 +432,16 @@ html {
     height: fit-content;
     color: #929292;
     overflow: auto;
-    margin: 2px 0 0 0;
+    flex: 0 0 auto;
+
 }
 
 .btn-more-photo{
+    display: none;
     position: relative;
     align-content: center;
-    margin: 0 15%;
+    margin: 0 15% 0 15%;
+
 }
 
 #load-more{
@@ -481,7 +500,7 @@ button:hover{
 }
 
 @font-face {
-    font-family: Calligraffitti; 
+    font-family: Calligraffitti;
     src: url(fonts/Calligraffitti-Regular.ttf);
    }
 
