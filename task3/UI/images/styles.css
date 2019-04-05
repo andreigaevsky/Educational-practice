@@ -44,15 +44,7 @@ html {
     overflow: hidden;
 
 }
-button{
-    outline: none;
-}
 
-button:active{
-    -moz-transform:translate(0,0.15em);
-    -o-transform:translate(0,0.15em);
-    -webkit-transform:translate(0,0.15em);
-}
 .site-name {
     font-family: Calligraffitti;
     font-size: 32px;
@@ -129,9 +121,7 @@ button:active{
     margin-bottom: 8px;
     margin-top: 15px;
 }
-#menu-logout-btn:hover, #menu-login-btn:hover, #menu-back-btn:hover{
-    background: #F8F8FF;
-}
+
 .right-line{
     margin: 0 0 0 2px;
     height: 1px;
@@ -167,21 +157,11 @@ button:active{
 }
 
 
-#toggle-filter-btn, #clear-search-btn {
+#toggle-filter-btn {
+   // background: #aaaaaa;
     background: #008dd4;
     color: white;
-    border: 0 ;
-}
-.search-clear{
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-}
-#clear-search-btn{
-    width: 40%
-}
-#toggle-filter-btn:hover, #post-create-btn:hover, #login-btn:hover{
-    background: #006ee1;
+    border: 1px solid #d6d6d6;
 }
 
 #main-search {
@@ -192,7 +172,6 @@ button:active{
     position: relative;
     min-width: 176px;
     text-align: start;
-    background: transparent;
     padding: 0 0 0 10px;
     height: auto;
 }
@@ -382,8 +361,6 @@ button:active{
 
 .tag-class{
     margin-left: 5px;
-    margin-top: 3px;
-    display: inline-flex;
 }
 
 .count-likes{
@@ -395,7 +372,6 @@ button:active{
 .tags{
     margin: 3px 0 0 6px;
     font-size: 14px;
-    width: 85%;
 }
 .main-wall{
     width: 96%;
@@ -406,7 +382,7 @@ button:active{
     width: 100%;
     display: block;
     height: fit-content;
-    margin-top: 20px;
+    padding-top: 12px;
 }
 
 .b-hr{
@@ -437,12 +413,12 @@ button:active{
     color: black;
     font-size: 12px;
     border: 1px solid #d6d6d6;
-    outline: none;
 
 }
 
 .post-edit-btn:hover{
-    background: #F5F3F3;
+    color:white;
+    background: #008dd4;
 }
 
 .post-delete-btn{
@@ -458,7 +434,6 @@ button:active{
     color: white;
     font-size: 12px;
     border: 1px solid #c0c0c0;
-    outline: none;
 }
 
 .post-delete-btn:hover, .post-delete-btn:active{
@@ -552,7 +527,11 @@ button:hover{
     src: url(fonts/Calligraffitti-Regular.ttf);
    }
 
-
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 
 .login-container{
@@ -630,6 +609,9 @@ input{
     }
 }
 
+#menu-login-btn{
+
+}
 .login-help-text{
     text-align: left;
     margin: 20px 0 0 0;
@@ -762,12 +744,8 @@ input{
 display:none;
 }
 
-input{
-    outline: none;
-}
 
 .edit-right-bottom{
-    display: flex;
     float: right;
     margin-right: 10%;
 
@@ -837,10 +815,4 @@ ul.ul-tags {
 
     background: white;
     border: 1px solid  #008dd4;
-}
-#edit-error-text{
-    position: relative;
-    font-size: 12px;
-    color: red;
-    margin: auto 3px auto 3px;
 }
