@@ -6,9 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body class="logged-in" >
+<body class="logged-in">
 <div class="container" id="id_container">
-    <header class="header"  data-topbar-fix="true">
+    <header class="header" data-topbar-fix="true">
         <div class="head-main">
             <div class="head-left">
                 <div class="logo">
@@ -20,7 +20,9 @@
                 <div class="main-menu">
                     <h2 id="head-user" class="main-name"></h2>
                     <div class="login">
-                        <button id="head-btn" class="classic-btn" type="button">Log In</button>
+                        <button id="menu-login-btn" class="classic-btn" type="button">Log In</button>
+                        <button id="menu-logout-btn" class="hidden-block" type="button">Log Out</button>
+                        <button id="menu-back-btn" class="hidden-block" type="button">Back</button>
                     </div>
                 </div>
 
@@ -29,57 +31,148 @@
     </header>
 
 
+    <span id="login-page" class="hidden-block">
+    <div class="login-container">
+        <div class="welcome">
+            <h1 id="welcome-text">Welcome to Picshow</h1>
+        </div>
+        <div class="login-main">
+            <div class="left-ph">
+                <p class="photo-text">Show yourself</p>
+                <img src="images/6.png" alt="photo">
+            </div>
 
-    <div class="main-panel" data-topbar-fix="true">
-        <div class="panel-inner">
-            <div class="panel-container">
-                <div class="main-funcs">
-                    <div class="btn-filter">
-                        <button class="classic-btn" id="i-bfilter">Filter</button>
-                    </div>
+            <div class="border">
+                <img src="images/border.png" alt="border">
+            </div>
 
-                    <input id="i-tsearch" type="search" placeholder="Search...">
+            <form class="login-form">
 
-                    <div class="btn">
-                        <button class="classic-btn" id="post-create">New post</button>
-                    </div>
-                </div>
+                <input class="login-name" name="username" placeholder="*Username" type="text" required>
+                <input class="login-password" name="password" placeholder="*Password" type="password" required>
 
-                <div class="filter-panel" id="flt-panel">
-                    <div class="filter-container">
-                        <div class="search-by-username">
-                            <label for="name-search" class="filter-text">Username:</label>
-                            <input class="search" id="name-search" type="text" placeholder="AndyVoid">
-                        </div>
+                <button class="classic-btn" id="login-btn">Log In</button>
+                 <p class="login-help-text" id="log-text">* - Required field</p>
+            </form>
 
-                        <div class="search-by-date">
-                            <label class="filter-text">Date:</label>
-                            <label for="date-from" class="help-text">from:</label>
-                            <input class="search-date" id="date-from" type="date" >
-                            <label for="date-to" class="help-text">to:</label>
-                            <input class="search-date" id="date-to" type="date" >
-                        </div>
+            <div>
 
-                        <div class="search-by-tags">
-                            <label for="tags-search" class="filter-text">#Hashtags:</label>
-                            <input class="search" id="tags-search" type="text" placeholder="lol">
-                        </div>
+            </div>
 
-                    </div>
+            <div class="border">
+                <img src="images/border.png" alt="border">
+            </div>
+
+            <div class="right-ph">
+                <p class="photo-text">Be yourself</p>
+                <img src="images/5.png" alt="photo">
             </div>
         </div>
     </div>
+</span>
+
+    <span id="edit-page" class="hidden-block">
+    <div class="edit-container">
+        <div class="main-window" id="form-save" >
+               <div class="edit-info">
+            <h2 id="edit-name" class="u-name">Username</h2>
+            <p id="edit-time">19.20.2002, 19;44:44</p>
+                </div>
+            <div class="edit-windows">
+           <div class="edit-left">
+            <div class="drag-drop">
+                <img class="hidden-block"  id="edit-photo-img">
+            </div>
+                <div class="edit-left-bottom">
+                    <p class="click-text">Or click: </p>
+                    <label class="classic-btn" id="load-photo-btn" for="edit-photo-input">Load</label>
+                    <input name="photo" type="file" id="edit-photo-input">
+                </div>
+                </div>
+            <div class="edit-right" id="edit-right-fields">
+                <textarea id="edit-description-input" name="description" minlength="10" maxlength="200" placeholder="Write some description"></textarea>
+            <p class="max-len">200</p>
+
+            <div class="edit-tags">
+            <textarea id="tag-input" name="tags" placeholder="Add #tag"></textarea>
+                <button id="add-tag-btn" >Add</button>
+            </div>
+            <button id="clear-tag" class="classic-btn">Clear</button>
+                <template id="edit-tag-template">
+                <li>
+                        <div class="one-tag">
+                        <p class="tag-text"></p>
+                    <img alt="del" class="del-tag-img-btn" src="images/delete.png"/></div>
+                </li>
+                </template>
+            <ul class="ul-tags" id="main-tags" >
+
+            </ul>
+                </div>
+                </div>
+                    <div class="edit-right-bottom">
+                        <p class="hidden-block" id="edit-error-text">Photo and description fields are required</p>
+                    <button id="save-post-btn" class="classic-btn">Post</button>
+                </div>
+        </div>
     </div>
+</span>
 
+    <div id="main-page" >
+        <div class="main-panel" data-topbar-fix="true">
+            <div class="panel-inner">
+                <div class="panel-container">
+                    <div class="main-funcs">
+                        <div class="btn-filter">
+                            <button class="classic-btn" id="toggle-filter-btn">Filter</button>
+                        </div>
 
-    <div class="main-wall" id="posts-wall">
+                        <input id="main-search" type="search" placeholder="Search...">
 
-         <template id="post-template">
+                        <div class="btn">
+                            <button class="hidden-block" id="post-create-btn" disabled>New post</button>
+                        </div>
+                    </div>
+
+                    <div class="hidden-block" id="filter-panel">
+                        <div class="filter-container">
+                            <form id="filter-form" class="filter-form-class">
+
+                                <div class="search-by-username">
+                                    <label for="name-search" class="filter-text">Username:</label>
+                                    <input class="search" name="author" id="name-search" type="text"
+                                           placeholder="AndyVoid">
+                                </div>
+
+                                <div class="search-by-date">
+                                    <label class="filter-text">Date:</label>
+                                    <label for="date-from" class="help-text">from:</label>
+                                    <input class="search-date" name="fromDate" id="date-from" type="date">
+                                    <label for="date-to" class="help-text">to:</label>
+                                    <input class="search-date" name="toDate" id="date-to" type="date">
+                                </div>
+
+                                <div class="search-by-tags">
+                                    <label for="tags-search" class="filter-text">#Hashtags:</label>
+                                    <input class="search" name="hashTags" id="tags-search" type="text"
+                                           placeholder="lol">
+                                </div>
+                                <div class="search-clear">
+                                    <button class="classic-btn" type="button" id="clear-search-btn">Clear</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <template id="post-template">
             <div class="post">
                 <div class="post-head">
                     <div class="post-main-use">
                         <h2 class="u-name"></h2>
-                        <button class="post-edit-btn">Edit</button>
+                        <button id="edit-btn" class="post-edit-btn" disabled>Edit</button>
                     </div>
 
                     <div class="post-info">
@@ -94,13 +187,13 @@
 
                 <div class="post-bot">
                     <div class="like-info">
-                        <button id="like-btn">
-                            <img class="like-ph" src="images/like.png" alt="like">
+                        <button class="like-btn">
+                            <img class="like-ph-btn" src="images/like.png" alt="like">
                         </button>
                         <p class="count-likes"></p>
-                        <button class="post-delete-btn">Delete</button>
-                    </div>
 
+                        <button class="post-delete-btn" disabled>Delete</button>
+                    </div>
                     <div class="tags">
 
                     </div>
@@ -109,40 +202,48 @@
                     </div>
                 </div>
             </div>
-         </template>
+        </template>
+
+        <template id="post-tag">
+            <a class="tag-class" href=""></a>
+        </template>
+
+        <div class="main-wall" id="posts-wall">
 
 
-    </div>
-    <div class="btn-more-photo">
-        <button id="load-more">
-            <img src="images/ic_expand_more_48px-512.png" alt="load more" class="more-img">
-        </button>
+        </div>
+        <div class="more-photo">
+            <button id="load-more-btn">
+                <img src="images/ic_expand_more_48px-512.png" alt="load more" class="more-img">
+            </button>
+        </div>
     </div>
 </div>
-    <footer class="h-c-footer">
-        <section class="h-c-footer-global">
-            <ul class="h-no-bullet">
-                <li class="h-c-footer-list-item">
-                    <p class="just-text"> Picshow ©</p>
-                </li>
+<footer class="h-c-footer">
+    <section class="h-c-footer-global">
+        <ul class="h-no-bullet">
+            <li class="h-c-footer-list-item">
+                <p class="just-text"> Picshow ©</p>
+            </li>
 
-                <li class="h-c-footer-list-item">
-                    <p class="just-text">Andrei Gaevsky | 2 course 5 group</p>
-                </li>
+            <li class="h-c-footer-list-item">
+                <p class="just-text">Andrei Gaevsky | 2 course 5 group</p>
+            </li>
 
-                <li class="h-c-footer-list-item">
-                    <p class="just-text">
-                        gaevskyandrei@gmail.com</p>
-                </li>
+            <li class="h-c-footer-list-item">
+                <p class="just-text">
+                    gaevskyandrei@gmail.com</p>
+            </li>
 
-                <li class="h-c-footer-list-item">
-                    <p class="just-text"> 22.02.2019 </p>
-                </li>
-            </ul>
-        </section>
-    </footer>
+            <li class="h-c-footer-list-item">
+                <p class="just-text"> 03.04.2019 </p>
+            </li>
+        </ul>
+    </section>
+</footer>
 </body>
 <script src="script.js"></script>
 <script src="view.js"></script>
 <script src="global.js"></script>
+<script src="events.js"></script>
 </html>
