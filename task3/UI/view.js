@@ -91,6 +91,8 @@ class View {
     static FILTER_FORM_CLASS = '.filter-form-class';
 
 
+    static _MAX_TAG_SYMBOLS = 20;
+
     constructor(postsArray, user) {
         this._postsList = new PostsList(postsArray, user);
         this._photoPosts = this._postsList._photoPosts;
@@ -341,7 +343,7 @@ class View {
         let isGood = true;
         allTags.forEach((tag) => {
             tags.push(tag.innerText);
-            if (tag.innerText.length > 20) {
+            if (tag.innerText.length > View._MAX_TAG_SYMBOLS) {
                 tag.parentElement.parentElement.style.background = 'red';
                 isGood = false;
             }
@@ -380,15 +382,14 @@ class View {
 
      static _restoreFilterData(filterForm){
         const data = JSON.parse(localStorage.getItem('filterForm'));
-        if(data) {
-            if (Object.values(data).some(field => field.length > 0)) {
-                filterForm.author.value = data.author;
-                filterForm.fromDate.value = data.fromDate;
-                filterForm.toDate.value = data.toDate;
-                filterForm.hashTags.value = data.hashTags;
-                ViewHeader.showFilter();
-            }
+        if(!data || !Object.values(data).some(field => field.length > 0)) {
+            return;
         }
+        filterForm.author.value = data.author;
+        filterForm.fromDate.value = data.fromDate;
+        filterForm.toDate.value = data.toDate;
+        filterForm.hashTags.value = data.hashTags;
+        ViewHeader.showFilter();
     }
 }
 

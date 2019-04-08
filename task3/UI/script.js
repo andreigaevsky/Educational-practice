@@ -12,7 +12,7 @@ class PostsList {
         }
      }
 
-    savePost(){
+    savePost() {
         localStorage.setItem('posts', JSON.stringify(this._photoPosts));
     }
 
@@ -58,7 +58,7 @@ class PostsList {
             createdAt: new Date(),
             author: this._user.name,
             photoLink: post.photoLink,
-            hashTags: post.hashTags  || [],
+            hashTags: post.hashTags || [],
             likes: [],
     };
         if (this.constructor._validate(newPost)) {
@@ -70,7 +70,7 @@ class PostsList {
     }
 
     likePost(id) {
-        if(!this._user){
+        if (!this._user) {
             return false;
         }
         const post = this.get(id);
@@ -119,29 +119,33 @@ class PostsList {
         return true;
     }
 
+    getByDescription(part) {
+        return this._photoPosts.filter(post => post.description.includes(part));
+    }
+
     static _filterHelper ={
         author(posts, author) {
-                if(author.trim().length === 0){
+                if (!author.trim().length) {
                     return posts;
                 }
             return posts.filter(post => post.author.toLowerCase().includes(author.toLowerCase().trim()));
         },
         fromDate(posts, fromDate) {
-            if(fromDate.length === 0){
+            if (fromDate.length === 0) {
                 return posts;
             }
             const fDate = new Date(fromDate);
             return posts.filter(post => post.createdAt >= fDate);
         },
         toDate(posts, toDate) {
-            if(toDate.length === 0){
+            if (toDate.length === 0) {
                 return posts;
             }
             const tDate = new Date(toDate);
             return posts.filter(post => post.createdAt <= tDate);
         },
         hashTags(posts, hashTags) {
-            if(hashTags.trim().length === 0){
+            if (hashTags.trim().length === 0) {
                 return posts;
             }
             const tags = hashTags.toLowerCase().trim().split(/[\s,]+/);
@@ -188,11 +192,6 @@ class PostsList {
     }
 
     static _validate(photoPost) {
-        return Object.keys(PostsList._validateHelper).every((field) => {
-            return PostsList._validateHelper[field](photoPost[field]);
-        });
+        return Object.keys(PostsList._validateHelper).every(field => PostsList._validateHelper[field](photoPost[field]));
     }
 }
-
-
-

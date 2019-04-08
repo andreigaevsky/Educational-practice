@@ -18,9 +18,11 @@ const _BTN_FILTER_CLEAR_ID = 'clear-search-btn';
 const _IMG_EDIT_DEL_TAG_ID = 'del-tag-img-btn';
 const _PATH_TEMP_ALL_PHOTOS = 'images/';
 const _ATTR_SRC = 'src';
+const _INPUT_MAIN_SEARCH_ID = 'main-search';
 const filterForm = document.querySelector(View.FILTER_FORM_CLASS);
 const loginForm = document.querySelector(_LOGIN_FORM_CLASS);
 let timerId;
+let timerMainSearch;
 document.getElementById(_BTN_FILTER_ID).addEventListener(_EVENT_CLICK, () => {
     Global.showFilter();
 });
@@ -42,9 +44,15 @@ document.getElementById(_INPUT_EDIT_PHOTO_ID).addEventListener(_EVENT_CHANGE, (e
     const path = _PATH_TEMP_ALL_PHOTOS + e.target.files[0].name;
     View.loadPhoto(path);
 });
-document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK,function() {
+document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK, () => {
     View.clearFilter(filterForm);
 });
+
+
+    function findAll() {
+        const { value } = document.getElementById(_INPUT_MAIN_SEARCH_ID);
+        Global.findAllIncludes(value.trim().toLowerCase());
+    }
 
     function _savePostGetData() {
         const photoLink = document.getElementById(View.IMG_EDIT_PHOTO).getAttribute(_ATTR_SRC);
@@ -59,7 +67,7 @@ document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK,func
     function _savePost() {
         const post = _savePostGetData();
         if (post) {
-            const id = document.querySelector(View.EDIT_CONTAINER_CLASS).id.replace( View.EDIT_MASC, '');
+            const id = document.querySelector(View.EDIT_CONTAINER_CLASS).id.replace(View.EDIT_MASC, '');
             let isGood;
             isGood = id.length ? Global.editPost(id, post) : Global.addPhotoPost(post);
             if (isGood) {
@@ -77,9 +85,8 @@ document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK,func
     }
 
     function _addTags(e) {
-        const tags = e.split(/[\s,]+/).filter(tag => tag !== '')
-            .map(tag => `#${tag.toLowerCase().trim()
-                .replace('#', '')}`);
+        const tags = e.split(/[\s,.;\-_#]+/).filter(tag => tag.length)
+            .map(tag => `#${tag.toLowerCase().trim()}`);
         View.showTags(tags);
     }
 
@@ -103,10 +110,9 @@ document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK,func
         View.clearLoginPage();
     }
 
-    function _saveFilterData(data){
+    function _saveFilterData(data) {
         localStorage.setItem('filterForm', JSON.stringify(data));
     }
-
 
 
     function _filter() {
@@ -114,7 +120,9 @@ document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK,func
         const fromDate = filterForm.fromDate.value;
         const toDate = filterForm.toDate.value;
         const hashTags = filterForm.hashTags.value;
-        _saveFilterData({author,fromDate, toDate, hashTags});
+        _saveFilterData({
+        author, fromDate, toDate, hashTags,
+        });
         Global.filterPosts({
             author, fromDate, toDate, hashTags,
         });
@@ -124,6 +132,11 @@ document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK,func
         event.preventDefault();
         clearTimeout(timerId);
         timerId = setTimeout(_filter, 1000);
+    }
+
+    function delaySearch() {
+        clearTimeout(timerMainSearch);
+        timerMainSearch = setTimeout(findAll, 1000);
     }
 
 
@@ -155,28 +168,30 @@ document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK,func
         return false;
     }
     _filter();
-document.getElementById(View.BTN_POST_CREATE_ID).addEventListener(_EVENT_CLICK, _createPostHandler);
-document.getElementById(_BTN_EDIT_CLEAR_TAG_ID).addEventListener(_EVENT_CLICK, _clearTags);
-document.getElementById(_BTN_SAVE_POST_ID).addEventListener(_EVENT_CLICK, _savePost);
-filterForm.addEventListener(_EVENT_INPUT, delayFunction);
-loginForm.addEventListener(_EVENT_SUBMIT, loginUser);
-document.getElementById(View.WALL_ID).addEventListener(_EVENT_CLICK, _wallHandler);
-document.getElementById(_EDIT_RIGHT_FIELDS_ID).addEventListener(_EVENT_CLICK, _removeTag);
-document.getElementById(_INPUT_EDIT_TAG_ID).addEventListener(_EVENT_KEYDOWN, (e) => {
-    if (e.code !== 'Enter' || e.target.value.length === 0) {
+    document.getElementById(View.BTN_POST_CREATE_ID).addEventListener(_EVENT_CLICK, _createPostHandler);
+    document.getElementById(_BTN_EDIT_CLEAR_TAG_ID).addEventListener(_EVENT_CLICK, _clearTags);
+    document.getElementById(_BTN_SAVE_POST_ID).addEventListener(_EVENT_CLICK, _savePost);
+    document.getElementById(_INPUT_MAIN_SEARCH_ID).addEventListener(_EVENT_INPUT, delaySearch);
+    filterForm.addEventListener(_EVENT_INPUT, delayFunction);
+    loginForm.addEventListener(_EVENT_SUBMIT, loginUser);
+    document.getElementById(View.WALL_ID).addEventListener(_EVENT_CLICK, _wallHandler);
+    document.getElementById(_EDIT_RIGHT_FIELDS_ID).addEventListener(_EVENT_CLICK, _removeTag);
+
+    document.getElementById(_INPUT_EDIT_TAG_ID).addEventListener(_EVENT_KEYDOWN, (e) => {
+    if (e.code !== 'Enter' || e.target.value.length) {
         return;
     }
     e.preventDefault();
     _addTags(e.target.value);
     e.target.value = '';
-});
-document.getElementById(_BTN_EDIT_ADD_TAG_ID).addEventListener(_EVENT_CLICK, (e) => {
+    });
+
+    document.getElementById(_BTN_EDIT_ADD_TAG_ID).addEventListener(_EVENT_CLICK, (e) => {
     e.preventDefault();
     let { target } = e;
     target = target.parentElement;
     const input = target.querySelector(`#${_INPUT_EDIT_TAG_ID}`);
     _addTags(input.value);
     input.value = '';
-});
-
+    });
 }());
