@@ -1,5 +1,4 @@
 const Global = (function () {
-
     function fillLocalStorage() {
         const ptr = [
             // just to test
@@ -202,25 +201,22 @@ const Global = (function () {
         return JSON.parse(localStorage.getItem('posts'));
     }
 
-    function restoreUser(){
+    function restoreUser() {
         const user = JSON.parse(localStorage.getItem('user'));
-        if(!user){
+        if (!user) {
             return undefined;
         }
         return user;
     }
 
-    let ptr = restorePosts();
-    let _user = restoreUser() ;
-    let postsList = new PostsList(ptr,_user);
+    const ptr = restorePosts();
+    let _user = restoreUser();
+    let postsList = new PostsList(ptr, _user);
     let view = new View(ptr, _user);
 
     function showMorePosts() {
         view.showMorePosts();
     }
-
-
-
 
     function logOut() {
         localStorage.removeItem('user');
@@ -242,6 +238,14 @@ const Global = (function () {
        view.setNewPostsList(filteredPosts);
     }
 
+    function findAllIncludes(param) {
+        let filteredPosts = postsList.getPage(0, postsList._photoPosts.length, {author: param});
+        let nextPosts = postsList.getPage(0, postsList._photoPosts.length, {hashTags: param});
+        filteredPosts = filteredPosts.concat(nextPosts.filter(i => filteredPosts.indexOf(i) === -1));
+        nextPosts = postsList.getByDescription(param);
+        filteredPosts = filteredPosts.concat(nextPosts.filter(i => filteredPosts.indexOf(i) === -1));
+        view.setNewPostsList(filteredPosts);
+    }
 
     function addPhotoPost(post) {
         if (postsList.add(post)) {
@@ -271,7 +275,7 @@ const Global = (function () {
         view.toggleLike(id, postsList.get(id).likes.length);
     }
 
-    function loginUser(user){
+    function loginUser(user) {
         _user = user;
         localStorage.setItem('user', JSON.stringify(_user));
         postsList = new PostsList(ptr, user);
@@ -279,7 +283,7 @@ const Global = (function () {
         view.loginUser();
     }
 
-    function getCurUser(){
+    function getCurUser() {
         return _user;
     }
 
@@ -290,7 +294,7 @@ const Global = (function () {
         view.showPosts(postsList.getPage());
         return true;
     }
-    function newPost(){
+    function newPost() {
         view.createNewPost();
     }
 
@@ -314,6 +318,6 @@ const Global = (function () {
         setEditPageData,
         loginUser,
         newPost,
+        findAllIncludes,
     };
 }());
-

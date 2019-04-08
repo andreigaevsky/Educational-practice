@@ -18,7 +18,6 @@ html {
 
 .container {
     flex: 1 0 auto;
-
     box-sizing: border-box;
 }
 
@@ -74,14 +73,11 @@ button:active{
 
 .left-line{
     margin: 0 0 0 10px;
-
     width: 130px;
     border:0;
     height: 1px;
-
     background-image: linear-gradient(to right, #ccc, #aaaaaa, #ccc)
 }
-
 
 .head-right {
     border-bottom-style: inset;
@@ -129,9 +125,11 @@ button:active{
     margin-bottom: 8px;
     margin-top: 15px;
 }
+
 #menu-logout-btn:hover, #menu-login-btn:hover, #menu-back-btn:hover{
     background: #F8F8FF;
 }
+
 .right-line{
     margin: 0 0 0 2px;
     height: 1px;
@@ -166,7 +164,6 @@ button:active{
 
 }
 
-
 #toggle-filter-btn, #clear-search-btn {
     background: #008dd4;
     color: white;
@@ -187,7 +184,6 @@ button:active{
 #main-search {
     width: 50%;
     border-radius: 9px 0 9px 0;
-    border: 1px solid #008dd4;
     display: block;
     position: relative;
     min-width: 176px;
@@ -256,11 +252,9 @@ button:active{
 .search, .search-date {
     min-width: 70px;
     width: 100%;
-
     border-radius: 9px 0 9px 0;
     padding-left: 4px;
     height: 21px;
-    border: 1px solid #008dd4;
     background-color: transparent;
 }
 
@@ -291,7 +285,6 @@ button:active{
     background-color: #F9F9F9;
     min-height: 100%;
     height: auto !important;
-
     position: relative;
 }
 
@@ -438,7 +431,6 @@ button:active{
     font-size: 12px;
     border: 1px solid #d6d6d6;
     outline: none;
-
 }
 
 .post-edit-btn:hover{
@@ -468,7 +460,6 @@ button:active{
 .more-img{
     width: 70px;
     height: auto;
-
 }
 
 .h-c-footer {
@@ -479,7 +470,6 @@ button:active{
     color: #929292;
     overflow: auto;
     flex: 0 0 auto;
-
 }
 
 .more-photo{
@@ -504,11 +494,13 @@ button:active{
     margin: 16px 0 32px 0;
     height: fit-content;
 }
+
 .h-c-footer-list-item{
     float: left;
     padding:  0;
     margin: 0 5px 0 0;
 }
+
 .just-text{
     padding: 0 15px 5px 0;
     margin: 0;
@@ -517,8 +509,6 @@ button:active{
 button:hover{
     cursor: pointer;
 }
-
-
 
 .footer-container{
     display: flex;
@@ -552,9 +542,6 @@ button:hover{
     src: url(fonts/Calligraffitti-Regular.ttf);
    }
 
-
-
-
 .login-container{
     height:fit-content;
     width: 100%;
@@ -572,7 +559,6 @@ button:hover{
     width: 100%;
     display: flex;
     justify-content: space-between;
-
 }
 
 .left-ph, .right-ph {
@@ -606,16 +592,13 @@ button:hover{
     display: grid;
 
 }
-input{
-    border-radius: 9px 0 9px 0;
-    border: 1px solid #008dd4;
-    min-height: 27px;
-}
+
 .login-name, .login-password{
     min-width: 200px;
     margin-bottom: 20px;
     text-align: center;
 }
+
 #login-btn{
     margin: auto;
     width: 70%;
@@ -624,6 +607,7 @@ input{
     color: white;
     border: 1px solid #c0c0c0;
 }
+
 @media screen and (max-width: 520px){
     .left-ph, .right-ph, .border{
         display: none;
@@ -643,10 +627,11 @@ input{
     color: #929292;
     margin: 3% 0 3% 0;
 }
+
 #welcome-text{
     margin: 20px 0 0 0;
-
 }
+
 #edit-description-input{
     height: 20vm;
     resize: none;
@@ -656,12 +641,9 @@ input{
     font-size: 15px;
     border: #008dd4 1px solid;
 }
+
 #tag-input{
-
-    /* Tell the input to use all the available space */
     flex-grow:2;
-    /* And hide the input outline, so the form looks like the outline */
-
     display: flex;
     font-size: 15px;
     height: fit-content;
@@ -671,35 +653,37 @@ input{
     width: 95%;
     border: #008dd4 1px solid;
 }
+
 #tag-input:focus{
     outline: none;
 }
+
 .edit-tags button{
     border: 0;
     color: white;
     background: #008dd4;
     margin-right: 5%;
 }
+
 .edit-tags{
     display:flex;
     flex-direction:row;
-
     padding:2px;
 }
-
 
 .edit-container{
     padding-top: 30px;
     height: 90%;
 
 }
+
 .edit-img{
     height: 200px;
     width: 50%;
 }
+
 .drag-drop{
     width: 100%;
-
     justify-content: center;
     min-height: 300px;
     margin-left: 3%;
@@ -713,6 +697,7 @@ input{
     height: auto;
     max-height: 480px;
 }
+
 .edit-left{
     width: 60%;
     max-height: 90%;
@@ -724,25 +709,30 @@ input{
     width: 35%;
     height: fit-content;
 }
+
 .edit-info{
     margin-left: 3%;
     width: 45%;
     margin-right: 3%;
 }
+
 .max-len{
     text-align: right;
     font-size: 10px;
     margin-top: 0;
     margin-right: 5%;
 }
+
 #edit-time{
     white-space: nowrap;
     margin: auto 5% auto 1%;
     font-size: 10px;
 }
+
 .main-window{
     height: 100%;
 }
+
 .edit-windows{
     height: 80%;
     display: flex;
@@ -759,11 +749,14 @@ input{
 }
 
 .edit-left-bottom input{
-display:none;
+    display:none;
 }
 
 input{
+    border: 1px solid #aaaaaa;
     outline: none;
+    border-radius: 9px 0 9px 0;
+    min-height: 27px;
 }
 
 .edit-right-bottom{
@@ -775,12 +768,10 @@ input{
 #load-photo-btn{
     max-height: 30px;
     text-align: center;
-    margin: auto;
     margin: auto 0 auto 5%;
     background: #929292;
     color: white;
     border: 1px solid #c0c0c0;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -800,7 +791,6 @@ input{
 ul.ul-tags {
     margin-bottom: 5px;
     padding: 4px;
-
 }
 .ul-tags>li {
     display: inline-block;
@@ -829,18 +819,24 @@ ul.ul-tags {
     max-width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
-
 }
 
 #clear-tag{
     color:  #008dd4;
-
     background: white;
     border: 1px solid  #008dd4;
 }
+
 #edit-error-text{
     position: relative;
     font-size: 12px;
     color: red;
     margin: auto 3px auto 3px;
 }
+
+input:focus{
+    border-color:transparent;
+    box-shadow: inset 0 0 0 2px #008dd4;
+    transition: box-shadow 1s ease;
+}
+
