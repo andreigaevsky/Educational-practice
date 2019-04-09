@@ -12,6 +12,10 @@ class PostsList {
         }
      }
 
+     getAllPosts(){
+        return this._photoPosts;
+     }
+
     savePost() {
         localStorage.setItem('posts', JSON.stringify(this._photoPosts));
     }

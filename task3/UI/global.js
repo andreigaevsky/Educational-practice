@@ -249,7 +249,7 @@ const Global = (function () {
 
     function addPhotoPost(post) {
         if (postsList.add(post)) {
-            view.showPosts(postsList.getPage());
+            view.setNewPostsList(postsList.getAllPosts());
             return true;
         }
         return false;
