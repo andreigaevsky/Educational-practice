@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <servlet>
+        <servlet-name>firstjavaservlets</servlet-name>
+        <servlet-class>com.bsu.exadel.JavaServlets</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>servletgetname</servlet-name>
+        <servlet-class>com.bsu.exadel.JavaServletGetName</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>servletcheck</servlet-name>
+        <servlet-class>com.bsu.exadel.JavaServletCheck</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>servletpage</servlet-name>
+        <servlet-class>com.bsu.exadel.JavaServletPage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>servlettestforward</servlet-name>
+        <servlet-class>com.bsu.exadel.JavaServletTestForward</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>servlettestredirect</servlet-name>
+        <servlet-class>com.bsu.exadel.JavaServletTestRedirect</servlet-class>
+    </servlet>
+
+    <filter>
+        <filter-name>timemeasure</filter-name>
+        <filter-class>com.bsu.exadel.TimeMeasureFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>timemeasure</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet-mapping>
+        <servlet-name>firstjavaservlets</servlet-name>
+        <url-pattern>/status</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>servletgetname</servlet-name>
+        <url-pattern>/get</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>servletcheck</servlet-name>
+        <url-pattern>/check</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>servletpage</servlet-name>
+        <url-pattern>/page</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>servlettestforward</servlet-name>
+        <url-pattern>/test1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>servlettestredirect</servlet-name>
+        <url-pattern>/test2</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
