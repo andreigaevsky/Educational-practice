@@ -5,32 +5,32 @@
          version="4.0">
     <servlet>
         <servlet-name>firstjavaservlets</servlet-name>
-        <servlet-class>com.bsu.exadel.JavaServlets</servlet-class>
+        <servlet-class>com.bsu.exadel.servlets.JavaServlets</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>servletgetname</servlet-name>
-        <servlet-class>com.bsu.exadel.JavaServletGetName</servlet-class>
+        <servlet-class>com.bsu.exadel.servlets.JavaServletGetName</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>servletcheck</servlet-name>
-        <servlet-class>com.bsu.exadel.JavaServletCheck</servlet-class>
+        <servlet-class>com.bsu.exadel.servlets.JavaServletCheck</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>servletpage</servlet-name>
-        <servlet-class>com.bsu.exadel.JavaServletPage</servlet-class>
+        <servlet-class>com.bsu.exadel.servlets.JavaServletPage</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>servlettestforward</servlet-name>
-        <servlet-class>com.bsu.exadel.JavaServletTestForward</servlet-class>
+        <servlet-class>com.bsu.exadel.servlets.JavaServletTestForward</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>servlettestredirect</servlet-name>
-        <servlet-class>com.bsu.exadel.JavaServletTestRedirect</servlet-class>
+        <servlet-class>com.bsu.exadel.servlets.JavaServletTestRedirect</servlet-class>
     </servlet>
 
     <filter>
         <filter-name>timemeasure</filter-name>
-        <filter-class>com.bsu.exadel.TimeMeasureFilter</filter-class>
+        <filter-class>com.bsu.exadel.filters.TimeMeasureFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -65,7 +65,5 @@
 
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
-        <welcome-file>index.htm</welcome-file>
-        <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
 </web-app>
