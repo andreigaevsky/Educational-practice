@@ -12,6 +12,15 @@ class PostsList {
         }
      }
 
+     getAllPosts(){
+        return this._photoPosts;
+     }
+
+    savePost() {
+        localStorage.setItem('posts', JSON.stringify(this._photoPosts));
+    }
+
+
     clear() {
         this._photoPosts = [];
         return this._photoPosts.length;
@@ -53,24 +62,29 @@ class PostsList {
             createdAt: new Date(),
             author: this._user.name,
             photoLink: post.photoLink,
-            hashTags: (post.hashTags && post.hashTags
-                .map(tag => tag.toLowerCase().trim().replace('#', ''))) || [],
+            hashTags: post.hashTags || [],
             likes: [],
     };
         if (this.constructor._validate(newPost)) {
             this._photoPosts.push(newPost);
+            this.savePost();
             return newPost;
         }
         return false;
     }
 
     likePost(id) {
+        if (!this._user) {
+            return false;
+        }
         const post = this.get(id);
         const likeIndex = post.likes.indexOf(this._user.name);
         if (likeIndex === -1) {
             post.likes.push(this._user.name);
+            this.savePost();
             return true;
         }
+            this.savePost();
             post.likes.splice(likeIndex, 1);
             return false;
     }
@@ -95,6 +109,7 @@ class PostsList {
         Object.keys(edit).forEach((field) => {
             post[field] = JSON.parse(JSON.stringify(editedPost[field]));
         });
+        this.savePost();
         return true;
     }
 
@@ -104,22 +119,39 @@ class PostsList {
             return false;
         }
         this._photoPosts.splice(this._photoPosts.indexOf(post), 1);
+        this.savePost();
         return true;
+    }
+
+    getByDescription(part) {
+        return this._photoPosts.filter(post => post.description.includes(part));
     }
 
     static _filterHelper ={
         author(posts, author) {
+                if (!author.trim().length) {
+                    return posts;
+                }
             return posts.filter(post => post.author.toLowerCase().includes(author.toLowerCase().trim()));
         },
         fromDate(posts, fromDate) {
+            if (fromDate.length === 0) {
+                return posts;
+            }
             const fDate = new Date(fromDate);
             return posts.filter(post => post.createdAt >= fDate);
         },
         toDate(posts, toDate) {
+            if (toDate.length === 0) {
+                return posts;
+            }
             const tDate = new Date(toDate);
             return posts.filter(post => post.createdAt <= tDate);
         },
         hashTags(posts, hashTags) {
+            if (hashTags.trim().length === 0) {
+                return posts;
+            }
             const tags = hashTags.toLowerCase().trim().split(/[\s,]+/);
             return posts.filter(post => tags.every(tag => PostsList._hasTag(post.hashTags, tag)));
         },
@@ -131,7 +163,7 @@ class PostsList {
 
 
     static _sortA(a, b) {
-        return b.createdAt - a.createdAt;
+        return new Date(b.createdAt) - new Date(a.createdAt);
     }
 
     static _hasTag(hashTags, tag) {
@@ -164,11 +196,6 @@ class PostsList {
     }
 
     static _validate(photoPost) {
-        return Object.keys(PostsList._validateHelper).every((field) => {
-            return PostsList._validateHelper[field](photoPost[field]);
-        });
+        return Object.keys(PostsList._validateHelper).every(field => PostsList._validateHelper[field](photoPost[field]));
     }
 }
-
-
-
