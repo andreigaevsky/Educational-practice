@@ -1,4 +1,6 @@
-package com.bsu.exadel.main;
+package com.bsu.exadel.model;
+
+import com.bsu.exadel.utils.ValidatePostHelper;
 
 import java.util.*;
 
@@ -6,27 +8,22 @@ public class Post {
 
     private String author;
     private String description;
-    private String hashTags;
+    private ArrayList<String> hashTags;
     private String photoLink;
-    private Calendar createdAt;
+    private Date createdAt;
     private String id;
     private Set<String> likes;
 
     public Post() throws IllegalArgumentException {
     }
 
-    public Post(String author, String description, String hashTags, String photoLink) throws IllegalArgumentException {
-
-        ValidatePostHelper.checkForDescrLength(description);
-        ValidatePostHelper.checkForContent(photoLink);
-        hashTags = hashTags.trim().toLowerCase().replaceAll("\\W+", "");
-        ValidatePostHelper.checkForTagsLen(hashTags);
+    public Post(String author, String description, List<String> hashTags, String photoLink) {
         this.author = author;
         this.description = description;
-        this.hashTags = hashTags;
+        this.hashTags = new ArrayList<>(hashTags);
         this.photoLink = photoLink;
-        this.likes = new HashSet();
-        this.createdAt = new GregorianCalendar();
+        this.likes = new HashSet<>();
+        this.createdAt = new Date();
         this.id = UUID.randomUUID().toString();
     }
 
@@ -49,19 +46,19 @@ public class Post {
         return description;
     }
 
-    public void setDescription(String description) throws IllegalArgumentException{
+    public void setDescription(String description) throws IllegalArgumentException {
         ValidatePostHelper.checkForDescrLength(description);
         this.description = description;
     }
 
-    public String getHashTags() {
+    public ArrayList<String> getHashTags() {
         return hashTags;
     }
 
-    public void setHashTags(String hashTags) {
-        ValidatePostHelper.checkForTagsLen(hashTags);
-        this.hashTags = hashTags;
-
+    public void setHashTags(List<String> hashTags) {
+        ArrayList<String> tags = new ArrayList<>(hashTags);
+        ValidatePostHelper.checkForTagsLen(tags);
+        this.hashTags = tags;
     }
 
     public String getPhotoLink() {
@@ -73,7 +70,7 @@ public class Post {
         this.photoLink = photoLink;
     }
 
-    public Calendar getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
@@ -81,8 +78,17 @@ public class Post {
         return id;
     }
 
-    public Set<String> getLikes() {
-        return likes;
+    public int getCountLikes() {
+        return likes.size();
+    }
+
+    public int setLike(String username){
+        if(likes.contains(username)){
+            likes.remove(username);
+            return likes.size();
+        }
+        likes.add(username);
+        return likes.size();
     }
 
     @Override
@@ -91,7 +97,7 @@ public class Post {
         return sb.append("id: ").append(this.id)
                 .append("author: ").append(this.author)
                 .append("description: ").append(this.description)
-                .append("hashTags: ").append(this.description)
+                .append("hashTags: ").append(this.hashTags)
                 .append("likes: ").append(this.likes.toString())
                 .append("createdAt: ").append(this.createdAt.toString())
                 .toString();

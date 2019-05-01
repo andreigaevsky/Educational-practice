@@ -1,4 +1,4 @@
-package com.bsu.exadel.main;
+package com.bsu.exadel.model;
 
 public class User {
     private String name;

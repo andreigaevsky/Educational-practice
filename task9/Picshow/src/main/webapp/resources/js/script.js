@@ -12,15 +12,6 @@ class PostsList {
         }
      }
 
-     getAllPosts(){
-        return this._photoPosts;
-     }
-
-    savePost() {
-        localStorage.setItem('posts', JSON.stringify(this._photoPosts));
-    }
-
-
     clear() {
         this._photoPosts = [];
         return this._photoPosts.length;
@@ -39,137 +30,111 @@ class PostsList {
         return badPosts;
     }
 
-    get(id) {
-        return this._photoPosts.find(post => post.id === id);
+    static async getById(id) {
+        const response = await fetch("/photo-post?id="+id,{method:"GET"});
+        if (response.status === 200) {
+            let json = await response.json();
+            return json;
+        }
+        throw new Error(response.status.toString());
     }
 
-    getPage(skip = 0, top = 10, filterConfig = undefined) {
-        let filteredPosts = this._photoPosts.sort(PostsList._sortA).slice();
-        if (filterConfig) {
-            Object.keys(filterConfig).forEach((field) => {
-                filteredPosts = PostsList._filterHelper[field](filteredPosts, filterConfig[field]);
+    static async getPage(skip = 0, top = 10, filterConfig = undefined) {
+        let url = '/photoposts?skip='+skip+'&top='+top;
+        if(filterConfig){
+            Object.keys(filterConfig).forEach(config=>{
+                let con = filterConfig[config].trim().toLowerCase();
+                if(con.length){
+                url = url+"&"+config+"="+con
+                }
             });
         }
-        filteredPosts = filteredPosts.slice(skip, top);
-        return filteredPosts;
+        const response = await fetch(url,{method: "GET"});
+        if (response.status === 200) {
+            let json = await response.json();
+            return json;
+        }
+        throw new Error(response.status.toString());
+    }
+
+    static getFormData(object) {
+        const formData = new FormData();
+        Object.keys(object).forEach(key => formData.append(key, object[key]));
+        return formData;
     }
 
 
-    add(post) {
-        const newPost = {
-            id: PostsList._nextId().toString(),
-            description: post.description,
-            createdAt: new Date(),
-            author: this._user.name,
-            photoLink: post.photoLink,
-            hashTags: post.hashTags || [],
-            likes: [],
-    };
-        if (this.constructor._validate(newPost)) {
-            this._photoPosts.push(newPost);
-            this.savePost();
-            return newPost;
+   static async addPost(post) {
+        const response = await fetch('/photo-post',{
+            body: PostsList.getFormData(post),
+            method: "POST"});
+        if (response.status === 200) {
+            let json = await response.json();
+            return json;
         }
-        return false;
-    }
-
-    likePost(id) {
-        if (!this._user) {
-            return false;
-        }
-        const post = this.get(id);
-        const likeIndex = post.likes.indexOf(this._user.name);
-        if (likeIndex === -1) {
-            post.likes.push(this._user.name);
-            this.savePost();
-            return true;
-        }
-            this.savePost();
-            post.likes.splice(likeIndex, 1);
-            return false;
+        throw new Error(response.status.toString());
     }
 
 
-    edit(id, edit) {
-        const post = this.get(id);
+    static  async  likePost(id) {
+        const response = await fetch("/photo-post/like?id="+id,{method:"POST"});
+        if (response.status === 200) {
+            let json = await response.json();
+            return json;
+        }
+        throw new Error(response.status.toString());
+    }
+
+
+
+        static async edit(id, edit) {
+        const post = await PostsList.getById(id);
+        let answer = {answer:"fail"};
         if (!post) {
-            return false;
+            return answer;
         }
         if (!Object.keys(edit).every(field => Object.keys(PostsList._editHelper).includes(field))) {
-            return false;
+            return answer;
         }
-        const editedPost = JSON.parse(JSON.stringify(post));
         Object.keys(edit).forEach((field) => {
-                editedPost[field] = PostsList._editHelper[field](edit[field]);
+                post[field] = PostsList._editHelper[field](edit[field]);
             });
-
-        if (!PostsList._validate(editedPost)) {
-            return false;
+        if (!PostsList.validatePost(post)) {
+            return answer;
         }
-        Object.keys(edit).forEach((field) => {
-            post[field] = JSON.parse(JSON.stringify(editedPost[field]));
-        });
-        this.savePost();
-        return true;
+            const response = await fetch("/photo-post?id="+id,{
+                body: PostsList.getFormData(post),
+                method: "PUT"});
+            if (response.status === 200) {
+                let json = await response.json();
+                return json;
+            }
+            throw new Error(response.status.toString());
     }
 
-    remove(id) {
-        const post = this.get(id);
-        if (!post || this._photoPosts.length === 0) {
-            return false;
+    static async remove(id) {
+        const response = await fetch("/photo-post?id="+id,{method:"DELETE"});
+        if (response.status === 200) {
+            let json = await response.json();
+            return json;
         }
-        this._photoPosts.splice(this._photoPosts.indexOf(post), 1);
-        this.savePost();
-        return true;
+        throw new Error(response.status.toString());
+    }
+
+    static async login(user) {
+        const response =  await fetch("/login",{
+            body: PostsList.getFormData(user),
+            method: "POST"});
+        if (response.status === 200) {
+            let json = await response.json();
+            return json;
+        }
+        throw new Error(response.status.toString());
     }
 
     getByDescription(part) {
         return this._photoPosts.filter(post => post.description.includes(part));
     }
-
-    static _filterHelper ={
-        author(posts, author) {
-                if (!author.trim().length) {
-                    return posts;
-                }
-            return posts.filter(post => post.author.toLowerCase().includes(author.toLowerCase().trim()));
-        },
-        fromDate(posts, fromDate) {
-            if (fromDate.length === 0) {
-                return posts;
-            }
-            const fDate = new Date(fromDate);
-            return posts.filter(post => new Date(post.createdAt) >= fDate);
-        },
-        toDate(posts, toDate) {
-            if (toDate.length === 0) {
-                return posts;
-            }
-            const tDate = new Date(toDate);
-            return posts.filter(post => new Date(post.createdAt) <= tDate);
-        },
-        hashTags(posts, hashTags) {
-            if (hashTags.trim().length === 0) {
-                return posts;
-            }
-            const tags = hashTags.toLowerCase().trim().split(/[\s,]+/);
-            return posts.filter(post => tags.every(tag => PostsList._hasTag(post.hashTags, tag)));
-        },
-    }
-
-    static _nextId() {
-        return Math.round(new Date().getTime() + (Math.random() * 100));
-    }
-
-
-    static _sortA(a, b) {
-        return new Date(b.createdAt) - new Date(a.createdAt);
-    }
-
-    static _hasTag(hashTags, tag) {
-        return !!hashTags.find(hashTag => hashTag.includes(tag));
-    }
-
 
     static _validateHelper = {
         description(description) {
@@ -181,7 +146,7 @@ class PostsList {
         hashTags(hashTags) {
             return !!hashTags.every(item => item.length <= PostsList._MAX_TAGS);
         },
-    }
+    };
 
     static _editHelper ={
         hashTags(hashTags) {
@@ -193,9 +158,10 @@ class PostsList {
         photoLink(photoLink) {
             return photoLink.trim();
         },
-    }
+    };
 
-    static _validate(photoPost) {
-        return Object.keys(PostsList._validateHelper).every(field => PostsList._validateHelper[field](photoPost[field]));
+    static validatePost(photoPost) {
+        return Object.keys(PostsList._validateHelper)
+            .every(field => PostsList._validateHelper[field](photoPost[field]));
     }
 }

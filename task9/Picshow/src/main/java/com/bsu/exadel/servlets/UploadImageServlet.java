@@ -12,13 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.xml.ws.RequestWrapper;
 import java.io.*;
-import java.nio.file.Paths;
 
 
 @MultipartConfig
 public class UploadImageServlet extends HttpServlet {
-
-    private final String tempPicFolder = System.getProperty("user.dir") + System.getProperty("file.separator") + "pictures";
+    private final String userDir = "user.dir";
+    private final String fileSep = "file.separator";
+    private final String picFolderName = "pictures";
+    private final String fileType ="image/";
+    private final String tempPicFolder = System.getProperty(userDir) + System.getProperty(fileSep) + picFolderName;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,7 +28,6 @@ public class UploadImageServlet extends HttpServlet {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
         JsonObject jsonToReturn1 = new JsonObject();
-        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
         InputStream fileContent = filePart.getInputStream();
         String fileType[] = filePart.getContentType().split("/");
         if(!fileType[0].equals("image")){
@@ -47,16 +48,14 @@ public class UploadImageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String photoLink = req.getParameter("filename");
         if(photoLink != null) {
-            File file = new File(tempPicFolder + "/" + photoLink);
+            File file = new File(String.format("%s%s%s",tempPicFolder ,"/" , photoLink));
             if (file.exists()) {
-                resp.setContentType("image/" + photoLink.substring(photoLink.lastIndexOf(".") + 1));
-                OutputStream out = resp.getOutputStream();
-                FileInputStream in = new FileInputStream(file);
+                resp.setContentType(String.format("%s%s",fileType, photoLink.substring(photoLink.lastIndexOf(".") + 1)));
+              try(  OutputStream out = resp.getOutputStream();FileInputStream in = new FileInputStream(file)){
                 IOUtils.copy(in, out);
-                out.close();
-                in.close();
+              }
             } else {
-                throw new FileNotFoundException();
+                throw new FileNotFoundException(String.format("%s%s%s","File with name '",photoLink,"' is not found."));
             }
         }
     }
