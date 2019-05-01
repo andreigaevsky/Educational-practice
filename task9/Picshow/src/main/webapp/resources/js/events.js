@@ -24,7 +24,7 @@ const loginForm = document.querySelector(_LOGIN_FORM_CLASS);
 let timerId;
 let timerMainSearch;
 document.getElementById(_BTN_FILTER_ID).addEventListener(_EVENT_CLICK, () => {
-    Global.showFilter();
+    ViewHeader.showFilter();
 });
 document.getElementById(_BTN_LOAD_MORE_ID).addEventListener(_EVENT_CLICK, () => {
     Global.showMorePosts();
@@ -33,7 +33,7 @@ document.getElementById(View.BTN_LOGOUT_ID).addEventListener(_EVENT_CLICK, () =>
     Global.logOut();
 });
 document.getElementById(View.BTN_LOGIN_ID).addEventListener(_EVENT_CLICK, () => {
-    Global.logIn();
+    View.login();
 });
 document.getElementById(View.BTN_BACK_ID).addEventListener(_EVENT_CLICK, () => {
     Global.back();
@@ -104,9 +104,9 @@ document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK, () 
 
     function loginUser(event) {
         event.preventDefault();
-        const name = loginForm.username.value;
+        const username = loginForm.username.value;
         const password = loginForm.password.value;
-        Global.loginUser({ name, password });
+        Global.loginUser({ username, password });
         View.clearLoginPage();
     }
 
@@ -116,16 +116,16 @@ document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK, () 
 
 
     function _filter() {
-        const author = filterForm.author.value;
-        const fromDate = filterForm.fromDate.value;
-        const toDate = filterForm.toDate.value;
-        const hashTags = filterForm.hashTags.value;
-        _saveFilterData({
-        author, fromDate, toDate, hashTags,
-        });
-        Global.filterPosts({
-            author, fromDate, toDate, hashTags,
-        });
+        let fConfigs = {};
+        fConfigs.author = filterForm.author.value;
+        fConfigs.fromDate = filterForm.fromDate.value;
+        fConfigs.toDate = filterForm.toDate.value;
+        fConfigs.hashTags = filterForm.hashTags.value;
+
+        _saveFilterData(fConfigs);
+        if(Object.values(fConfigs).some(config=>config.length)){
+            Global.filterPosts(fConfigs);
+        }
     }
 
     function delayFunction(event) {

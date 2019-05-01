@@ -1,4 +1,4 @@
-package com.bsu.exadel.main;
+package com.bsu.exadel.model;
 
 
 
@@ -22,10 +22,10 @@ public class Users {
     }
 
     public static boolean checkUser(String name, String password){
-        final User USER = users.get(name);
+       /* final User USER = users.get(name);
         if(USER == null || !USER.getPassword().equals(password)){
             return false;
-        }
+        }*/
         return true;
     }
 

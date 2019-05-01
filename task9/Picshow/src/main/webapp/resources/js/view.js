@@ -8,7 +8,7 @@ class View {
 
     static COLOR_MAIN_BLUE = '#008dd4';
 
-    static COLOR_MAIN_GRAY = '#aaaaaa'
+    static COLOR_MAIN_GRAY = '#aaaaaa';
 
     static TEMPLATE_POST_ID = 'post-template';
 
@@ -94,13 +94,10 @@ class View {
     static _MAX_TAG_SYMBOLS = 20;
 
     constructor(postsArray, user) {
-        this._postsList = new PostsList(postsArray, user);
-        this._photoPosts = this._postsList._photoPosts;
         this._user = user;
-        this.amountPosts = 0;
         this.TEMPLATE = document.getElementById(View.TEMPLATE_POST_ID);
         this.TAGS = document.getElementById(View.TEMPLATE_POST_TAG_ID);
-        this.showPosts(this._postsList.getPage());
+        this.showPosts(postsArray);
         this.updateHeader(this._user);
         View._restoreFilterData(document.querySelector(View.FILTER_FORM_CLASS));
     }
@@ -113,7 +110,7 @@ class View {
         if (this._user) {
             loginBtn.className = View.HIDDEN_CLASS;
             logOutBtn.className = View.NAME_CLASSIC_BTN_CLASS;
-            username.innerHTML = this._user.name;
+            username.innerHTML = this._user.username;
             addPostBtn.className = View.NAME_CLASSIC_BTN_CLASS;
             addPostBtn.disabled = false;
         } else {
@@ -131,24 +128,19 @@ class View {
         loginForm.password.value = View._EMPTY;
     }
 
-    remove(id) {
+    async remove(id) {
         const node = document.getElementById(id);
         const wall = document.getElementById(View.WALL_ID);
-        this._postsList.remove(id);
         if (!node) {
             return false;
         }
         wall.removeChild(node);
-            const posts = this._postsList.getPage(this.amountPosts, this.amountPosts + 1);
-            this.amountPosts -= 1 + posts.length;
-            wall.append(this._getFragment(posts));
-            this._setBtnMorePosts();
-            return true;
+        return true;
     }
 
-    _setBtnMorePosts() {
+    toggleBtnMorePosts() {
         const morePostsBtn = document.getElementsByClassName(View.DIV_MORE_PHOTO_CLASS);
-        morePostsBtn[0].style.display = this.amountPosts === this._photoPosts.length
+        morePostsBtn[0].style.display = morePostsBtn[0].style.display === 'none'
             ? 'none' : 'block';
     }
 
@@ -186,7 +178,7 @@ class View {
 
     _setUserOptions(user, newPost, post) {
         if (user) {
-            if (user.name === post.author) {
+            if (user.username === post.author) {
                 const deletePostBtn = newPost.querySelector(View.BTN_DELETE_POST_CLASS);
                 const editPostBtn = newPost.querySelector(View.BTN_EDIT_POST_CLASS);
                 deletePostBtn.style.display = 'block';
@@ -194,7 +186,7 @@ class View {
                 editPostBtn.style.display = 'block';
                 editPostBtn.disabled = false;
             }
-            if (post.likes.includes(user.name)) {
+            if (post.likes.includes(user.username)) {
                 newPost.querySelector(View.BTN_LIKE_PH_CLASS).src = View.PATH_PH_LIKED;
             }
         } else {
@@ -221,14 +213,6 @@ class View {
     }
 
 
-    setNewPostsList(photoArray) {
-        this._postsList = new PostsList(photoArray);
-        this._photoPosts = this._postsList._photoPosts;
-        const page = this._postsList.getPage();
-        this.showPosts(page);
-        this.amountPosts = page.length;
-    }
-
     _getFragment(posts) {
         const fragment = document.createDocumentFragment();
         posts.forEach((post) => { fragment.append(this._buildPost(post)); });
@@ -239,16 +223,11 @@ class View {
         const wall = document.getElementById(View.WALL_ID);
         wall.innerHTML = View._EMPTY;
         wall.append(this._getFragment(posts));
-        this.amountPosts = posts.length;
-        this._setBtnMorePosts();
     }
 
-    showMorePosts() {
+    showMorePosts(posts) {
         const wall = document.getElementById(View.WALL_ID);
-        const nextPosts = this._postsList.getPage(this.amountPosts, this.amountPosts + 10);
-        wall.append(this._getFragment(nextPosts));
-        this.amountPosts += nextPosts.length;
-        this._setBtnMorePosts();
+        wall.append(this._getFragment(posts));
      }
 
      toggleLike(id, countLikes) {
@@ -268,7 +247,7 @@ class View {
          document.getElementById(View.H2_USERNAME).innerText = View._EMPTY;
      }
 
-     login() {
+     static login() {
         document.getElementById(View.DIV_MAIN_PAGE_ID).className = View.HIDDEN_CLASS;
         document.getElementById(View.DIV_LOGIN_PAGE_ID).className = View._EMPTY;
         document.getElementById(View.BTN_LOGIN_ID).className = View.HIDDEN_CLASS;
@@ -306,13 +285,12 @@ class View {
 
      createNewPost() {
         View.showEditPage();
-         document.getElementById(View.EDIT_USER_H_ID).innerText = this._user.name;
+         document.getElementById(View.EDIT_USER_H_ID).innerText = this._user.username;
          document.getElementById(View.EDIT_TIME_P_ID).innerText = `${new Date().toLocaleDateString()}, 
         ${new Date().toLocaleTimeString()}`;
      }
 
-     setEditPageData(id) {
-        const post = this._postsList.get(id);
+    setEditPageData(post) {
          document.getElementById(View.EDIT_USER_H_ID).innerText = post.author;
          const date = new Date(post.createdAt);
          document.getElementById(View.EDIT_TIME_P_ID).innerText = `${date.toLocaleDateString()}, 
@@ -366,12 +344,12 @@ class View {
     static showEditPageErrorText() {
         document.getElementById(View.EDIT_ERROR_TEXT_P_ID).className = View._EMPTY;
     }
+
     static clearStorageFilter(){
         localStorage.removeItem('filterForm')
     }
 
     static clearFilter(filterForm) {
-        console.log()
             filterForm.author.value = View._EMPTY;
             filterForm.fromDate.value = View._EMPTY;
             filterForm.toDate.value = View._EMPTY;
