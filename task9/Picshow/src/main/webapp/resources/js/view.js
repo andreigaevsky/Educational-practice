@@ -168,7 +168,7 @@ class View {
             true,
         );
         const newTag = fragment.firstElementChild;
-        newTag.innerText = hashTag;
+        newTag.innerText = "#"+hashTag;
         return newTag;
     }
 
@@ -298,7 +298,7 @@ class View {
          document.querySelector(View.EDIT_CONTAINER_CLASS).id = View.EDIT_MASC + post.id;
          const path = post.photoLink;
          View.showTags(post.hashTags);
-         View.loadPhoto(path);
+         View.loadPhoto(post.photoLink);
          document.getElementById(View.INPUT_EDIT_DESCRIPTION_ID).value = post.description;
      }
 
@@ -338,7 +338,8 @@ class View {
         drop.style.background = 'transparent';
         drop.style.minHeight = '1px';
         photo.className = View.EDIT_PRE_PHOTO_CLASS.replace('.', View._EMPTY);
-        photo.src = path;
+        photo.src = path
+
     }
 
     static showEditPageErrorText() {

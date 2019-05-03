@@ -40,10 +40,7 @@ document.getElementById(View.BTN_BACK_ID).addEventListener(_EVENT_CLICK, () => {
     View.clearLoginPage();
     View.clearEditPage();
 });
-document.getElementById(_INPUT_EDIT_PHOTO_ID).addEventListener(_EVENT_CHANGE, (e) => {
-    const path = _PATH_TEMP_ALL_PHOTOS + e.target.files[0].name;
-    View.loadPhoto(path);
-});
+document.getElementById(_INPUT_EDIT_PHOTO_ID).addEventListener(_EVENT_CHANGE, _loadPhotoPreview);
 document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK, () => {
     View.clearFilter(filterForm);
 });
@@ -54,22 +51,26 @@ document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK, () 
         Global.findAllIncludes(value.trim().toLowerCase());
     }
 
-    function _savePostGetData() {
-        const photoLink = document.getElementById(View.IMG_EDIT_PHOTO).getAttribute(_ATTR_SRC);
+    async function _savePostGetData() {
         const description = document.getElementById(View.INPUT_EDIT_DESCRIPTION_ID).value;
         const hashTags = View.checkTags(document.querySelectorAll(View.TAG_TEXT_P_CLASS));
         if (!hashTags) {
             return false;
         }
+        let photo = await _loadPhotoOnServer();
+        const photoLink = "http://localhost:8080/photo?filename="+photo.answer;
+        if(photo.answer === "fail"){
+            return {hashTags, description};
+        }
         return { photoLink, hashTags, description };
     }
 
-    function _savePost() {
-        const post = _savePostGetData();
+    async function _savePost() {
+        const post = await _savePostGetData();
         if (post) {
             const id = document.querySelector(View.EDIT_CONTAINER_CLASS).id.replace(View.EDIT_MASC, '');
             let isGood;
-            isGood = id.length ? Global.editPost(id, post) : Global.addPhotoPost(post);
+            isGood = id.length ? await Global.editPost(id, post) : await Global.addPhotoPost(post);
             if (isGood) {
                 View.clearEditPage();
                 View.hideEditPage();
@@ -78,6 +79,34 @@ document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK, () 
         }
         View.showEditPageErrorText();
         return false;
+    }
+
+    function _loadPhotoPreview(input){
+        input = input.target;
+        const photo = document.getElementById(View.IMG_EDIT_PHOTO);
+        const drop = document.querySelector(View.DIV_EDIT_PHOTO_CLASS);
+        drop.style.background = 'transparent';
+        drop.style.minHeight = '1px';
+        photo.className = View.EDIT_PRE_PHOTO_CLASS.replace('.', View._EMPTY);
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+
+                reader.onload = function(e) {
+                    photo.src = e.target.result;
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+    }
+
+    async function _loadPhotoOnServer(){
+        let formData = new FormData();
+        let imgFile = document.getElementById("edit-photo-input").files[0];
+        if(!imgFile){
+            return {answer:"fail"}
+        }
+        formData.append("file", imgFile);
+        return await PostsList.loadPhoto(formData)
     }
 
     function _createPostHandler() {

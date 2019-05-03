@@ -10,7 +10,7 @@ class PostsList {
         if (user) {
             this._user = user;
         }
-     }
+    }
 
     clear() {
         this._photoPosts = [];
@@ -26,12 +26,12 @@ class PostsList {
                 badPosts[len] = post;
                 len += 1;
             }
-});
+        });
         return badPosts;
     }
 
     static async getById(id) {
-        const response = await fetch("/photo-post?id="+id,{method:"GET"});
+        const response = await fetch("/photo-post?id=" + id, {method: "GET"});
         if (response.status === 200) {
             let json = await response.json();
             return json;
@@ -40,16 +40,16 @@ class PostsList {
     }
 
     static async getPage(skip = 0, top = 10, filterConfig = undefined) {
-        let url = '/photoposts?skip='+skip+'&top='+top;
-        if(filterConfig){
-            Object.keys(filterConfig).forEach(config=>{
+        let url = '/photoposts?skip=' + skip + '&top=' + top;
+        if (filterConfig) {
+            Object.keys(filterConfig).forEach(config => {
                 let con = filterConfig[config].trim().toLowerCase();
-                if(con.length){
-                url = url+"&"+config+"="+con
+                if (con.length) {
+                    url = url + "&" + config + "=" + con;
                 }
             });
         }
-        const response = await fetch(url,{method: "GET"});
+        const response = await fetch(url, {method: "GET"});
         if (response.status === 200) {
             let json = await response.json();
             return json;
@@ -64,10 +64,39 @@ class PostsList {
     }
 
 
-   static async addPost(post) {
-        const response = await fetch('/photo-post',{
+    static async addPost(post) {
+        let answer = {answer: "fail"};
+        if (!PostsList.validatePost(post)) {
+            return answer;
+        }
+        const response = await fetch('/photo-post', {
             body: PostsList.getFormData(post),
-            method: "POST"});
+            method: "POST"
+        });
+        if (response.status === 200) {
+            let json = await response.json();
+            return json;
+        }
+        throw new Error(response.status.toString());
+    }
+
+    static async loadPhoto(formData) {
+        const response = await fetch('/photo', {
+            body: formData,
+            enctype: "multipart/form-data",
+            name: "file",
+            type: "file",
+            method: "POST"
+        });
+        if (response.status === 200) {
+            let json = await response.json();
+            return json;
+        }
+        throw new Error(response.status.toString());
+    }
+
+    static async getPhoto(name) {
+        const response = await fetch("/photo?filename=" + name, {method: "GET"});
         if (response.status === 200) {
             let json = await response.json();
             return json;
@@ -76,8 +105,8 @@ class PostsList {
     }
 
 
-    static  async  likePost(id) {
-        const response = await fetch("/photo-post/like?id="+id,{method:"POST"});
+    static async likePost(id) {
+        const response = await fetch("/photo-post/like?id=" + id, {method: "POST"});
         if (response.status === 200) {
             let json = await response.json();
             return json;
@@ -86,10 +115,9 @@ class PostsList {
     }
 
 
-
-        static async edit(id, edit) {
+    static async edit(id, edit) {
         const post = await PostsList.getById(id);
-        let answer = {answer:"fail"};
+        let answer = {answer: "fail"};
         if (!post) {
             return answer;
         }
@@ -97,23 +125,24 @@ class PostsList {
             return answer;
         }
         Object.keys(edit).forEach((field) => {
-                post[field] = PostsList._editHelper[field](edit[field]);
-            });
+            post[field] = PostsList._editHelper[field](edit[field]);
+        });
         if (!PostsList.validatePost(post)) {
             return answer;
         }
-            const response = await fetch("/photo-post?id="+id,{
-                body: PostsList.getFormData(post),
-                method: "PUT"});
-            if (response.status === 200) {
-                let json = await response.json();
-                return json;
-            }
-            throw new Error(response.status.toString());
+        const response = await fetch("/photo-post?id=" + id, {
+            body: PostsList.getFormData(post),
+            method: "PUT"
+        });
+        if (response.status === 200) {
+            let json = await response.json();
+            return json;
+        }
+        throw new Error(response.status.toString());
     }
 
     static async remove(id) {
-        const response = await fetch("/photo-post?id="+id,{method:"DELETE"});
+        const response = await fetch("/photo-post?id=" + id, {method: "DELETE"});
         if (response.status === 200) {
             let json = await response.json();
             return json;
@@ -122,9 +151,10 @@ class PostsList {
     }
 
     static async login(user) {
-        const response =  await fetch("/login",{
+        const response = await fetch("/login", {
             body: PostsList.getFormData(user),
-            method: "POST"});
+            method: "POST"
+        });
         if (response.status === 200) {
             let json = await response.json();
             return json;
@@ -140,15 +170,12 @@ class PostsList {
         description(description) {
             return description && description.length > PostsList._MIN_WORD && description.length < PostsList._MAX_WORD;
         },
-        photoLink(photoLink) {
-            return photoLink && typeof photoLink === 'string' && photoLink.length !== 0;
-        },
         hashTags(hashTags) {
             return !!hashTags.every(item => item.length <= PostsList._MAX_TAGS);
         },
     };
 
-    static _editHelper ={
+    static _editHelper = {
         hashTags(hashTags) {
             return hashTags.map(tag => tag.toLowerCase().trim());
         },

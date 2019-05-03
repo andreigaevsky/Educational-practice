@@ -4,7 +4,7 @@ package com.bsu.exadel.model;
 import com.bsu.exadel.service.PostsByDateComparator;
 import com.bsu.exadel.utils.ValidatePostHelper;
 
-import java.io.IOException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 public class PostsCollection {
     private static Map<String,Post> posts = new HashMap<>();
-    private static int countShownPost = 0;
 
     public static Post getPost(String id){
         return posts.get(id);
@@ -89,8 +88,8 @@ public class PostsCollection {
     public static List<String> getTags(String tags){
         return Arrays.stream(tags.trim()
                 .toLowerCase()
-                .replaceAll("[#.-_]+", "")
-                .split("[ ]+"))
+                .replaceAll("[# ]+", "")
+                .split("[,]+"))
                 .filter(tag -> !tag.equals(""))
                 .collect(Collectors.toList());
     }
@@ -108,7 +107,7 @@ public class PostsCollection {
                 post.setHashTags(getTags(config.getValue()));
                 break;
             }
-            case "photoLink":{
+            case "photolink":{
                 post.setPhotoLink(config.getValue());
                 break;
             }

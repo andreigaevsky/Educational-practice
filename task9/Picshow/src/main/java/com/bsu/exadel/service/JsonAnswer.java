@@ -9,9 +9,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,7 +30,7 @@ public class JsonAnswer {
             if (item.isFormField()) {
                 jsonObject.addProperty(item.getFieldName(),item.getString());
             } else {
-                //processUploadedFile(item);
+
             }
         }
         return jsonObject;
