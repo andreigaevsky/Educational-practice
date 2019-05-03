@@ -74,12 +74,17 @@ const Global = (function () {
 
 
     async function addPhotoPost(post) {
+        if(!PostsList.validatePost(post)){
+            return false;
+        }
         let res = await PostsList.addPost(post);
         if (res.answer !== "fail") {
             let posts = await PostsList.getPage(0, 10, fConfigs);
             shownPosts = posts.length;
             view.showPosts(posts);
+            return true;
         }
+        return false;
     }
 
     async function remove(id) {
@@ -94,9 +99,6 @@ const Global = (function () {
         }
     }
 
-    function showFilter() {
-        ViewHeader.showFilter();
-    }
 
     async function showPosts() {
         view.showPosts( await PostsList.getPage());
@@ -146,7 +148,6 @@ const Global = (function () {
 
     return {
         addPhotoPost,
-        showFilter,
         showFirstPosts: showPosts,
         remove,
         showMorePosts,

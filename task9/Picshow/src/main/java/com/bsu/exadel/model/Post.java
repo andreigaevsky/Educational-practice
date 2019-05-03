@@ -97,7 +97,7 @@ public class Post {
         return sb.append("id: ").append(this.id)
                 .append("author: ").append(this.author)
                 .append("description: ").append(this.description)
-                .append("hashTags: ").append(this.hashTags)
+                .append("hashTags: ").append(this.hashTags.toString())
                 .append("likes: ").append(this.likes.toString())
                 .append("createdAt: ").append(this.createdAt.toString())
                 .toString();
