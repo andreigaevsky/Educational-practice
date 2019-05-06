@@ -1,0 +1,2 @@
+SELECT * FROM photo_post
+WHERE USER_ID = 5 AND DESCRIPTION LIKE '%hello%';
