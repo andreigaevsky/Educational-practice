@@ -1,0 +1,1 @@
+SELECT DISTINCT NAME FROM photoportal.user;

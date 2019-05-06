@@ -1,0 +1,2 @@
+SELECT * FROM photo_post
+ORDER BY CREATION_DATE;

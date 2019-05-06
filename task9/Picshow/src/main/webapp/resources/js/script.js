@@ -33,8 +33,7 @@ class PostsList {
     static async getById(id) {
         const response = await fetch("/photo-post?id=" + id, {method: "GET"});
         if (response.status === 200) {
-            let json = await response.json();
-            return json;
+            return  await response.json();
         }
         throw new Error(response.status.toString());
     }
@@ -51,8 +50,7 @@ class PostsList {
         }
         const response = await fetch(url, {method: "GET"});
         if (response.status === 200) {
-            let json = await response.json();
-            return json;
+            return await response.json();
         }
         throw new Error(response.status.toString());
     }
@@ -74,8 +72,7 @@ class PostsList {
             method: "POST"
         });
         if (response.status === 200) {
-            let json = await response.json();
-            return json;
+            return  await response.json();
         }
         throw new Error(response.status.toString());
     }
@@ -89,8 +86,7 @@ class PostsList {
             method: "POST"
         });
         if (response.status === 200) {
-            let json = await response.json();
-            return json;
+            return await response.json();
         }
         throw new Error(response.status.toString());
     }
@@ -98,8 +94,7 @@ class PostsList {
     static async getPhoto(name) {
         const response = await fetch("/photo?filename=" + name, {method: "GET"});
         if (response.status === 200) {
-            let json = await response.json();
-            return json;
+            return await response.json();
         }
         throw new Error(response.status.toString());
     }
@@ -108,8 +103,7 @@ class PostsList {
     static async likePost(id) {
         const response = await fetch("/photo-post/like?id=" + id, {method: "POST"});
         if (response.status === 200) {
-            let json = await response.json();
-            return json;
+            return await response.json();
         }
         throw new Error(response.status.toString());
     }
@@ -135,8 +129,7 @@ class PostsList {
             method: "PUT"
         });
         if (response.status === 200) {
-            let json = await response.json();
-            return json;
+            return  await response.json();
         }
         throw new Error(response.status.toString());
     }
@@ -144,8 +137,7 @@ class PostsList {
     static async remove(id) {
         const response = await fetch("/photo-post?id=" + id, {method: "DELETE"});
         if (response.status === 200) {
-            let json = await response.json();
-            return json;
+            return  await response.json();
         }
         throw new Error(response.status.toString());
     }
@@ -156,8 +148,7 @@ class PostsList {
             method: "POST"
         });
         if (response.status === 200) {
-            let json = await response.json();
-            return json;
+            return await response.json();
         }
         throw new Error(response.status.toString());
     }
