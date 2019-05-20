@@ -47,17 +47,17 @@
         <servlet-name>uploadservlet</servlet-name>
         <servlet-class>com.bsu.exadel.servlets.UploadImageServlet</servlet-class>
     </servlet>
-
-    <filter>
-        <filter-name>timemeasure</filter-name>
-        <filter-class>com.bsu.exadel.filters.TimeMeasureFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>timemeasure</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    <servlet>
+        <servlet-name>testDB</servlet-name>
+        <servlet-class>com.bsu.exadel.servlets.DBTestServlet</servlet-class>
+    </servlet>
 
 
+
+    <servlet-mapping>
+        <servlet-name>testDB</servlet-name>
+        <url-pattern>/getTest</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>likepostservlet</servlet-name>
         <url-pattern>/photo-post/like</url-pattern>
@@ -102,6 +102,17 @@
         <servlet-name>loginservlet</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>timemeasure</filter-name>
+        <filter-class>com.bsu.exadel.filters.TimeMeasureFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>timemeasure</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

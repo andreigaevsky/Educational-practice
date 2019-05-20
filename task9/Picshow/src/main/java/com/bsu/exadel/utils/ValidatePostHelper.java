@@ -12,13 +12,13 @@ public final class ValidatePostHelper {
     private ValidatePostHelper() {
     }
 
-    public static void checkForDescrLength(String text) {
+    public static void checkForDescrLength(String text) throws IllegalArgumentException {
         if (text.length() < MIN_DESCRIPTION_LEN || text.length() > MAX_DESCRIPTION_LEN) {
             throw new IllegalArgumentException();
         }
     }
 
-    public static void checkForTagsLen(List<String> tags) {
+    public static void checkForTagsLen(List<String> tags)throws IllegalArgumentException {
         tags.forEach((tag) -> {
             if (tag.length() > MAX_TAG_LEN) {
                 throw new IllegalArgumentException();
@@ -26,7 +26,7 @@ public final class ValidatePostHelper {
         });
     }
 
-    public static void checkForContent(String link) {
+    public static void checkForContent(String link) throws IllegalArgumentException {
         if (link.length() == 0) {
             throw new IllegalArgumentException(link + " - unknown photo link.\n");
         }

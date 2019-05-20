@@ -1,5 +1,6 @@
 package com.bsu.exadel.servlets;
 
+import com.bsu.exadel.model.DBPostService;
 import com.bsu.exadel.service.JsonAnswer;
 import com.bsu.exadel.service.PicshowMainService;
 import com.google.gson.JsonObject;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 
 public class LoginServlet extends HttpServlet {
@@ -19,7 +21,7 @@ public class LoginServlet extends HttpServlet {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
         JsonObject jsonToReturn1;
-        PicshowMainService mainService = new PicshowMainService();
+        DBPostService mainService = new DBPostService();
         try {
                 JsonObject jsonObject = JsonAnswer.getParam(req);
                 String username = jsonObject.get("username").getAsString();
@@ -32,6 +34,8 @@ public class LoginServlet extends HttpServlet {
             out.println(jsonToReturn1.toString());
         } catch (FileUploadException e) {
             throw new IOException("Error parsing JSON request string");
+        }catch (SQLException e2){
+            resp.setStatus(502);
         }
     }
 }

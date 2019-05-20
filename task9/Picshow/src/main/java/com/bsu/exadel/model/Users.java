@@ -8,13 +8,13 @@ import java.util.Map;
 public class Users {
     private static Map<String, User> users = new HashMap<>();
 
-    public static boolean addUser(String name, String password){
+  /*  public static boolean addUser(String name, String password){
            if(users.containsKey(name)){
                return false;
            }
            users.put(name, new User(name, password));
            return true;
-    }
+    }*/
 
     public static boolean loadUsersDB(){
         //coming soon

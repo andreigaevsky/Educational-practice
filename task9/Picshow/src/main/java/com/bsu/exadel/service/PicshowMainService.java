@@ -16,7 +16,7 @@ public class PicshowMainService {
 
     }
 
-    public boolean login(String name, String password){
+   /* public boolean login(String name, String password){
         if(Users.checkUser(name, password)){
             //currentUser = Users.getUser(name);
             currentUser = new User(name,password);
@@ -47,13 +47,13 @@ public class PicshowMainService {
        // User user = Users.getUser(post.getAuthor());
        /* if(!USER.equals(currentUser)){
             return false;
-        }*/
+        }
         return PostsCollection.deletePost(id);
     }
 
-    public String addPost(String description, String hashTags, String photoLink) {
+    public Post addPost(String description, String hashTags, String photoLink) {
         if (currentUser == null) {
-            return "unlogged";
+            return null;
         }
         return PostsCollection.addPost(currentUser.getName(), description, hashTags, photoLink);
     }
@@ -67,7 +67,7 @@ public class PicshowMainService {
     public Post getPostById(String id){
      return PostsCollection.getPost(id);
     }
-
+*/
 
 
 }

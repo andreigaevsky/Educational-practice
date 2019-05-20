@@ -138,10 +138,13 @@ class View {
         return true;
     }
 
-    toggleBtnMorePosts() {
+    toggleBtnMorePosts(posts) {
         const morePostsBtn = document.getElementsByClassName(View.DIV_MORE_PHOTO_CLASS);
-        morePostsBtn[0].style.display = morePostsBtn[0].style.display === 'none'
-            ? 'none' : 'block';
+        if(posts && posts.length === 10) {
+            morePostsBtn[0].style.display = 'block';
+        }else{
+            morePostsBtn[0].style.display = 'none';
+        }
     }
 
     static buildTags(tag) {
@@ -223,15 +226,17 @@ class View {
         const wall = document.getElementById(View.WALL_ID);
         wall.innerHTML = View._EMPTY;
         wall.append(this._getFragment(posts));
+        this.toggleBtnMorePosts(posts);
     }
 
     showMorePosts(posts) {
         const wall = document.getElementById(View.WALL_ID);
         wall.append(this._getFragment(posts));
+        this.toggleBtnMorePosts(posts);
      }
 
      toggleLike(id, countLikes) {
-        if (this._user) {
+        if (this._user && countLikes !== -1) {
             const post = document.getElementById(id);
             const likeImg = post.querySelector(View.BTN_LIKE_PH_CLASS);
             likeImg.src = likeImg.src.includes('liked')
