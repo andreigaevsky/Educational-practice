@@ -1,5 +1,6 @@
 package com.bsu.exadel.servlets;
 
+import com.bsu.exadel.model.DBPostService;
 import com.bsu.exadel.service.PicshowMainService;
 import com.bsu.exadel.model.Post;
 import com.google.gson.Gson;
@@ -17,11 +18,10 @@ public class PhotopostsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
-        System.out.println(req.getRequestURL());
-        PicshowMainService mainService = new PicshowMainService();
+        DBPostService mainService = new DBPostService();
         resp.setContentType("application/json");
         Map<String, String[]> params = req.getParameterMap();
-        List<Post> POSTS = mainService.getFirstPosts(params);
+        List<Post> POSTS = mainService.filterPosts(params);
         out.println(new Gson().toJson(POSTS));
     }
 }

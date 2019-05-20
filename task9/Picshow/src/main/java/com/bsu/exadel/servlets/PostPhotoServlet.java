@@ -5,8 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.Map;
 
+import com.bsu.exadel.model.DBPostService;
 import com.bsu.exadel.service.JsonAnswer;
 import com.bsu.exadel.service.PicshowMainService;
 import com.bsu.exadel.model.Post;
@@ -19,7 +21,7 @@ public class PostPhotoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
-        PicshowMainService mainService = new PicshowMainService();
+        DBPostService mainService = new DBPostService();
         try {
             JsonObject jsonObject = JsonAnswer.getParam(req);
             String description = jsonObject.get("description").getAsString();
@@ -31,8 +33,8 @@ public class PostPhotoServlet extends HttpServlet {
                 hashTags = "";
             }
             JsonObject jsonToReturn;
-            String answer = mainService.addPost(description, hashTags, photoLink);
-            jsonToReturn = JsonAnswer.createAnswer(answer);
+            Post answer = mainService.addPost(description, hashTags, photoLink);
+            jsonToReturn = JsonAnswer.createAnswer(answer.toString());
             out.println(jsonToReturn.toString());
         } catch (FileUploadException e) {
             throw new IOException("Error parsing JSON request string");
@@ -42,7 +44,7 @@ public class PostPhotoServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final String ID = req.getParameter("id");
-        PicshowMainService mainService = new PicshowMainService();
+        DBPostService mainService = new DBPostService();
         if( ID != null) {
             PrintWriter out = resp.getWriter();
             JsonObject jsonToReturn1 = new JsonObject();
@@ -50,7 +52,7 @@ public class PostPhotoServlet extends HttpServlet {
                 resp.setContentType("application/json");
                 JsonObject jsonObject = JsonAnswer.getParam(req);
                 Map<String, String> editConfig = new Gson().fromJson(jsonObject, Map.class);
-                if (mainService.changePost(ID, editConfig)) {
+                if (mainService.editPost(ID, editConfig)) {
                     jsonToReturn1.addProperty("answer", "changed");
                 } else {
                     jsonToReturn1.addProperty("answer", "fail");
@@ -66,28 +68,32 @@ public class PostPhotoServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final String ID = req.getParameter("id");
         resp.setContentType("application/json");
-        PicshowMainService mainService = new PicshowMainService();
+        DBPostService mainService = new DBPostService();
         JsonObject jsonToReturn;
         if (ID != null) {
-            System.out.println(ID);
-            PrintWriter out = resp.getWriter();
-            if (mainService.removePost(ID)) {
-                jsonToReturn = JsonAnswer.createAnswer("removed");
-            } else {
-                jsonToReturn = JsonAnswer.createAnswer("fail");
+            try {
+                System.out.println(ID);
+                PrintWriter out = resp.getWriter();
+                if (mainService.deletePost(ID)) {
+                    jsonToReturn = JsonAnswer.createAnswer("removed");
+                } else {
+                    jsonToReturn = JsonAnswer.createAnswer("fail");
+                }
+                out.println(jsonToReturn.toString());
+            }catch(SQLException e){
+                resp.setStatus(502);
             }
-            out.println(jsonToReturn.toString());
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final String ID = req.getParameter("id");
-        PicshowMainService mainService = new PicshowMainService();
+        DBPostService mainService = new DBPostService();
         if( ID != null) {
             PrintWriter out = resp.getWriter();
             resp.setContentType("application/json");
-            final Post POST = mainService.getPostById(ID);
+            final Post POST = mainService.getPost(ID);
             out.println(new Gson().toJson(POST));
         }
     }

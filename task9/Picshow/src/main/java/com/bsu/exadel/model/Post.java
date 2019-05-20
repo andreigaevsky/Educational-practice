@@ -8,23 +8,23 @@ public class Post {
 
     private String author;
     private String description;
-    private ArrayList<String> hashTags;
+    private List<String> hashTags;
     private String photoLink;
     private Date createdAt;
-    private String id;
-    private Set<String> likes;
+    private int id;
+    private List<String> likes;
 
     public Post() throws IllegalArgumentException {
     }
 
-    public Post(String author, String description, List<String> hashTags, String photoLink) {
+    public Post(String author, String description, List<String> hashTags, String photoLink,int id, Date date, List<String> likes) {
         this.author = author;
         this.description = description;
-        this.hashTags = new ArrayList<>(hashTags);
+        this.hashTags = hashTags;
         this.photoLink = photoLink;
-        this.likes = new HashSet<>();
-        this.createdAt = new Date();
-        this.id = UUID.randomUUID().toString();
+        this.likes = likes;
+        this.createdAt = date;
+        this.id = id;
     }
 
     public Post(Post other) {
@@ -51,7 +51,7 @@ public class Post {
         this.description = description;
     }
 
-    public ArrayList<String> getHashTags() {
+    public List<String> getHashTags() {
         return hashTags;
     }
 
@@ -74,7 +74,7 @@ public class Post {
         return createdAt;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -91,6 +91,7 @@ public class Post {
         return likes.size();
     }
 
+
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
@@ -105,7 +106,7 @@ public class Post {
 
     @Override
     public int hashCode() {
-        return this.id.hashCode();
+        return this.id;
     }
 }
 

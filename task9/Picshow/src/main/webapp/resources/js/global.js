@@ -31,9 +31,13 @@ const Global = (function () {
                 }
             });
             let res = await PostsList.getPage(0, 10, fConfigs);
+            if(res!=null){
             shownPosts = res.length;
             postsList = new PostsList(res, user);
-            view = new View(res, user);
+            view = new View(res, user);}
+            else{
+                //show nothing page
+            }
         } catch (e) {
             alert(e);
         }
@@ -42,7 +46,7 @@ const Global = (function () {
 
     async function showMorePosts() {
         let posts = await PostsList.getPage(shownPosts, 10, fConfigs);
-        shownPosts += posts.length();
+        shownPosts += posts.length;
         view.showMorePosts(posts);
     }
 
