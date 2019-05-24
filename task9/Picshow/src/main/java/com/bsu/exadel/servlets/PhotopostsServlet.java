@@ -1,7 +1,6 @@
 package com.bsu.exadel.servlets;
 
 import com.bsu.exadel.model.DBPostService;
-import com.bsu.exadel.service.PicshowMainService;
 import com.bsu.exadel.model.Post;
 import com.google.gson.Gson;
 

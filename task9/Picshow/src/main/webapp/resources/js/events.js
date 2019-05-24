@@ -115,7 +115,7 @@ document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK, () 
 
     function _addTags(e) {
         const tags = e.split(/[\s,.;\-_#]+/).filter(tag => tag.length)
-            .map(tag => `#${tag.toLowerCase().trim()}`);
+            .map(tag => `${tag.toLowerCase().trim()}`);
         View.showTags(tags);
     }
 
@@ -133,8 +133,9 @@ document.getElementById(_BTN_FILTER_CLEAR_ID).addEventListener(_EVENT_CLICK, () 
 
     function loginUser(event) {
         event.preventDefault();
-        const username = loginForm.username.value;
-        const password = loginForm.password.value;
+        const username = loginForm.username.value.trim();
+        const password = btoa(loginForm.password.value);
+
         Global.loginUser({ username, password });
         View.clearLoginPage();
     }
