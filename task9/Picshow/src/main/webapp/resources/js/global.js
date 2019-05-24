@@ -2,27 +2,25 @@ const Global = (function () {
 
     let postsList;
     let view;
-    let user;
+    let _user;
     let fConfigs;
     let shownPosts;
 
-    function restoreUser() {
+    async function restoreUser() {
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user) {
             return undefined;
+        }try {
+            await PostsList.login(user);
+            return user;
+        }catch(e){
+            return undefined;
         }
-        return user;
     }
 
     (async () => {
         try {
-            user = restoreUser();
-            if (user) {
-                let ans = await PostsList.login(user);
-                if (ans.answer === "fail") {
-                    user = undefined;
-                }
-            }
+            _user = await restoreUser();
             fConfigs = {};
             const data = JSON.parse(localStorage.getItem('filterForm'));
             Object.keys(data).forEach(config => {
@@ -33,8 +31,8 @@ const Global = (function () {
             let res = await PostsList.getPage(0, 10, fConfigs);
             if(res!=null){
             shownPosts = res.length;
-            postsList = new PostsList(res, user);
-            view = new View(res, user);}
+            postsList = new PostsList(res, _user);
+            view = new View(res, _user);}
             else{
                 //show nothing page
             }
@@ -52,10 +50,13 @@ const Global = (function () {
 
     async function logOut() {
         localStorage.removeItem('user');
-        let posts = await PostsList.getPage();
-        postsList = new PostsList(posts);
-        view = new View(posts);
-        view.logout();
+        const response = await fetch("/logout", {method: "GET"});
+        if (response.status === 200) {
+            let posts = await PostsList.getPage();
+            postsList = new PostsList(posts);
+            view = new View(posts);
+            view.logout();
+        }
     }
 
     function back() {
@@ -118,15 +119,17 @@ const Global = (function () {
     }
 
     async function loginUser(user) {
-        let res = await PostsList.login(user);
-        if (res.answer !== "fail") {
+         try{
+             await PostsList.login(user);
             _user = user;
             localStorage.setItem('user', JSON.stringify(_user));
             let posts = await PostsList.getPage();
             postsList = new PostsList(posts, user);
             view = new View(posts, user);
             view.loginUser();
-        }
+        }catch(e) {
+
+         }
     }
 
     async function editPost(id, filterConfig) {

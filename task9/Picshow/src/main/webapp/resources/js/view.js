@@ -154,7 +154,7 @@ class View {
             true,
         );
         const newTag = fragment.firstElementChild;
-        newTag.querySelector(View.TAG_TEXT_P_CLASS).innerText = tag;
+        newTag.querySelector(View.TAG_TEXT_P_CLASS).innerText = "#"+tag;
         return newTag;
     }
 
