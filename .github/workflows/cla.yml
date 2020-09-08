@@ -21,4 +21,5 @@ jobs:
           path-to-cla-document: 'https://github.com/andreigaevsky/Educational-practice/blob/er/README.md'
           # branch should not be protected
           branch: 'master'
-          allowlist: andreigaevsky,bot*
+          allowlist: Elijas,daffy-,sbvalijon,stashess,kemerava,mmisachenka,isobolev,endypanda,mjakowiec,dmitry-boiko,pospielov,
+            andreigaevsky,ivandodz,aabramovich-dev,DmitryRomaniuk,bot*
